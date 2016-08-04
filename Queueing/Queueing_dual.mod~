@@ -1,0 +1,42 @@
+set time_epoch;
+set time_epoch_1;
+set actions;
+set states;
+set J1;
+set J0;
+param T;
+param N;
+param h;
+param beta;
+param A{actions};
+param Prob{states,J1,time_epoch,states,J1,actions};
+param alpha{states,J1};
+param gi{time_epoch,J1};
+param reward{time_epoch,states};
+var y{states,J1, time_epoch, actions} >=0;
+var y1{states,time_epoch, actions};
+#var x{states,J1, time_epoch, actions} >= 0 ;#, <=1;
+
+#objective function
+minimize cost: sum{s1 in states, l1 in J1, a in actions}
+ exp(reward[T-1,s1]+h*s1*A[a])* (sum{s2 in states,l2 in J1} Prob[s2,l2,T-1,s1,l1,a]*exp(reward[T-1,s2]) * y[s1,l1,T-1,a]);
+
+#Constraint 1
+subject to con1 {s in states,l1 in J1}: sum{ a in actions} y[s,l1,0,a] =alpha[s,l1];
+
+#Constraint 2
+subject to con2 {s2 in states,l2 in J1, t in time_epoch: t!=0}:
+sum{a in actions} y[s2,l2,t,a] - (sum{s1 in states,l1 in J1, a in actions} ( exp( reward[t,s1]+h*s1*A[a]) * Prob[s2,l2,t-1,s1,l1,a]* y[s1,l1,t-1,a])) = 0;
+
+#Constraint 3
+subject to con3 {s in states,t in time_epoch,a in actions}: y1[s,t,a] = (sum{l2 in J1} y[s,l2,t,a]);
+
+#Constraint 4
+subject to con4 : sum{s in states, l1 in J1, t in time_epoch, a in actions} (y[s,l1,t,a]) * s* A[a] * (gi[t,l1]) <=2.5; #4.267428;
+
+###########################################################################
+
+
+
+
+

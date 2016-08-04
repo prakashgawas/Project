@@ -1,0 +1,5 @@
+reset;
+option solver gurobi;
+model Queueing_dual.mod;
+data Queueing_dual.dat;
+solve;

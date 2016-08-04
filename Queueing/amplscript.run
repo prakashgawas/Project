@@ -1,0 +1,10 @@
+reset;
+model Queueing_dual.mod;
+data Queueing_dual.dat;
+option display_transpose -1000;
+option solver gurobi;solve;
+option display_precision 0;
+option display_width 2000;
+display y > dualresult.txt;
+display y1 > y12.txt;
+ 
