@@ -78,13 +78,13 @@ disp('File writing');
 fileID = fopen('Inv_FH.dat','w');
 
 % M Value
-fprintf(fileID,'param M := %d;\n', M);
+fprintf(fileID,'param Max_States := %d;\n', M);
 
 % N Value
-fprintf(fileID,'param N := %d;\n', N);
+fprintf(fileID,'param Max_Actions := %d;\n', N);
 
-%lambda
-fprintf(fileID,'param lambda:= 0.95;\n');
+%Time
+fprintf(fileID,'param Time:= %d;\n',Time);
 
 
 % for set states
@@ -127,7 +127,7 @@ fprintf(fileID,'\n');
 
 
 %q
-fprintf(fileID,'param q :');
+fprintf(fileID,'param ind :');
 for s1 = 1:length(S)
     fprintf(fileID,' %d \t', s1-1);
 end
@@ -143,7 +143,7 @@ fprintf(fileID,';\n');
 
 % for rewards
 
-fprintf(fileID,'param r :=');
+fprintf(fileID,'param Reward :=');
 for t = 1:length(T)
     str=sprintf('[*,*,%d]: \t',t-1);
     str1 = sprintf('%d ', 0:1:N );
@@ -159,7 +159,7 @@ fprintf(fileID,';\n');
 
 
 % for probability param
-fprintf(fileID,'param P:= \n');
+fprintf(fileID,'param Prob:= \n');
 
 for a = 1:length(S)
     str=sprintf('[*,*,%d]: \t',a-1);
