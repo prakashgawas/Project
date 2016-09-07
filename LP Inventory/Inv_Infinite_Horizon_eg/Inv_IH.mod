@@ -10,5 +10,5 @@ param lambda;
 #param C{S,A};
 #param B;
 var v{S};
-maximize cost: sum{s in S} alpha[s]*v[s];
+minimize cost: sum{s in S} alpha[s]*v[s];
 s.t. con1{s in S, a in A:q[s,a]>=1}: v[s]- sum{j in S}lambda*P[s,j,a]*v[j]<=r[s,a]; 
