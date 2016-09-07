@@ -1,7 +1,7 @@
 set S;#set of states
 set A;#set of actions
-param Max_Actions;
-param Max_States;
+param Max_Num_Actions;
+param Max_Num_States;
 param Time=3;
 set T;#set of time periods
 param Prob{S,S,A};#transition probaility matrix

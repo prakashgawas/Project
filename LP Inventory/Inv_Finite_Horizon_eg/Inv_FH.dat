@@ -1,5 +1,5 @@
-param Max_States := 3;
-param Max_Actions := 3;
+param Max_Num_States := 3;
+param Max_Num_Actions := 3;
 param Time:= 3;
 set S := 0 	1 	2 	3 	;
 set T := 0 	1 	2 	3 	;
