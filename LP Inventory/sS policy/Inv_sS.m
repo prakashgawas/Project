@@ -1,35 +1,40 @@
 
 clear all;
-N = 10;% Number of items you can order
-M = 10;% Number of states
+N = 20;% Number of items you can order
+M = 20;% Number of states
 Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
-p = 1/11; 
+ 
+Max_demand=10;
+p = 1/(Max_demand+1);
 
 oc=2;%purchase cost
 sc=0.4; %shortage cost
 hc=0.2; %holding cost
+
 %%
 
 %Expected reward
 r=zeros(M+1,N+1);
 for s=1:length(S)
     for a=1:length(A)
-        TOC=oc*A(a);
+        TOC=0;
         z=0;
         THC=0;
         TSC=0;
-        while(z<=10)
-            if(z<=S(s)+A(a))
-                THC=THC+ hc*(S(s)+A(a)-z)*p;
-            else
-                TSC=TSC+sc*(z-S(s)-A(a))*p;
-                
-            end
+        if(S(s)+A(a)<=M)
+            while(z<=Max_demand)
+                if(z<=S(s)+A(a))
+                    THC=THC+ hc*(S(s)+A(a)-z)*p;
+                else
+                    TSC=TSC+sc*(z-S(s)-A(a))*p;
+                end
             
-            z=z+1;
+                z=z+1;
+        
+            end
         end
         r(s,a)=TOC +THC+TSC;
     end
@@ -38,10 +43,10 @@ end
 %transition probability
 prob1=zeros(M+1,N+1);
 
-for s=1:M+N+1
+for s=1:M+1
     j=s;
     z=1;
-    while(j>1&&j>s-10)    
+    while(j>1&&j>s-Max_demand)    
             prob1(s,j)=p;
             z=z-prob1(s,j);
             j=j-1;
@@ -52,10 +57,10 @@ end
 prob=zeros(M+1,M+1,N+1);
 
 for s=1:length(S)
-    for a=1:length(S)
+    for a=1:length(A)
         if(S(s)+A(a)<=M)
            for j=1:length(S)
-                if(j<=s+a)
+                if(S(j)<=S(s)+A(a))
                     prob(s,j,a)=prob1(S(s)+A(a)+1,S(j)+1);
                 end
            end
@@ -67,13 +72,13 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS.dat','w');
+fileID = fopen('Inv_sS1.dat','w');
 
 % M Value
-fprintf(fileID,'param M := %d;\n', M);
+fprintf(fileID,'param Max_num_States := %d;\n', M);
 
 % N Value
-fprintf(fileID,'param N := %d;\n', N);
+fprintf(fileID,'param Max_num_Actions := %d;\n', N);
 
 % Time Value
 fprintf(fileID,'param Time := %d;\n', Time);
@@ -107,8 +112,8 @@ fprintf(fileID,';\n');
 
 % for alpha
 fprintf(fileID,'param alpha := ');
-for i1 = 0:N
-    fprintf(fileID,'%d 0.0909090\n',i1);
+for i1 = 0:M
+    fprintf(fileID,'%d 0.0476\n',i1);
 end
 fprintf(fileID,';\n');
 
@@ -121,7 +126,7 @@ fprintf(fileID,';\n');
 
 % for rewards
 
-fprintf(fileID,'param r :=');
+fprintf(fileID,'param Reward :=');
 for t = 1:length(T)
     str=sprintf('[*,*,%d]: \t',t-1);
     str1 = sprintf('%d ', 0:1:N );
@@ -137,11 +142,11 @@ fprintf(fileID,';\n');
 
 
 % for probability param
-fprintf(fileID,'param P:= \n');
+fprintf(fileID,'param Prob:= \n');
 
-for a = 1:length(S)
+for a = 1:length(A)
     str=sprintf('[*,*,%d]: \t',a-1);
-    str1 = sprintf('%d ', 0:1:N ); 
+    str1 = sprintf('%d ', 0:1:M ); 
     fprintf(fileID,'%s %s  := \n', str, str1);
     for s2 = 1:length(S)
         str= sprintf('%d \t',s2-1);
