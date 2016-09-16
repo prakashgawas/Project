@@ -5,15 +5,22 @@ M = 20;% Number of states
 Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
-T = 0:1:Time;
- 
 Max_demand=10;
-p = 1/(Max_demand+1);
+D=0:1:N; %demands
+T = 0:1:Time;
+K=length(D);
+%creating bins
+mu=5;
+sigma=2;
+p(1)=normcdf(min(D)+0.5,mu,sigma);
+p(K)=p(1);
+for i=2:K-1
+    p(i)=normcdf(i-0.5,mu,sigma)-normcdf(i-1.5,mu,sigma);
+end
 
 oc=2;%purchase cost
-sc=1; %shortage cost
+sc=0.4; %shortage cost
 hc=0.2; %holding cost
-
 %%
 
 %Expected reward
@@ -25,17 +32,19 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
+            TOC=oc*A(a);
             while(z<=Max_demand)
                 if(z<=S(s)+A(a))
-                    THC=THC+ hc*(S(s)+A(a)-z)*p;
+                    THC=THC+ hc*(S(s)+A(a)-z)*p(z+1);
                 else
-                    TSC=TSC+sc*(z-S(s)-A(a))*p;
+                    TSC=TSC+sc*(z-S(s)-A(a))*p(z+1);
                 end
             
                 z=z+1;
         
             end
         end
+        
         r(s,a)=TOC +THC+TSC;
     end
 end
@@ -46,10 +55,12 @@ prob1=zeros(M+1,N+1);
 for s=1:M+1
     j=s;
     z=1;
+    i=1;
     while(j>1&&j>s-Max_demand)    
-            prob1(s,j)=p;
+            prob1(s,j)=p(i);
             z=z-prob1(s,j);
             j=j-1;
+            i=i+1;
     end
     prob1(s,j)=z;
 end

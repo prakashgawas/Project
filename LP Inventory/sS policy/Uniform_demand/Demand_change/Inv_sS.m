@@ -7,13 +7,13 @@ S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
  
-Max_demand=10;
+Max_demand=20;
 p = 1/(Max_demand+1);
 
-oc=2;%purchase cost
-sc=0.4; %shortage cost
+oc=0.4;%purchase cost
+sc=0.8; %shortage cost
 hc=0.2; %holding cost
-
+foc=0.5; %fixed ordering cost
 %%
 
 %Expected reward
@@ -25,6 +25,7 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
+            TOC=oc*A(a)+foc*(A(a)>0);
             while(z<=Max_demand)
                 if(z<=S(s)+A(a))
                     THC=THC+ hc*(S(s)+A(a)-z)*p;
@@ -36,6 +37,7 @@ for s=1:length(S)
         
             end
         end
+        
         r(s,a)=TOC +THC+TSC;
     end
 end
@@ -72,7 +74,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS1.dat','w');
+fileID = fopen('Inv_sS20.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);

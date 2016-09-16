@@ -6,12 +6,14 @@ Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
-p = 1/11; 
-alpha=1/(M+1);
+ 
+Max_demand=20;
+p = 1/(Max_demand+1);
 
-oc=2;%purchase cost
-sc=0.4; %shortage cost
-hc=5; %holding cost
+oc=0.4;%purchase cost
+sc=0.8; %shortage cost
+hc=0.2; %holding cost
+foc=0.5; %fixed ordering cost
 %%
 
 %Expected reward
@@ -23,7 +25,8 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
-            while(z<=10)
+            TOC=oc*A(a);
+            while(z<=Max_demand)
                 if(z<=S(s)+A(a))
                     THC=THC+ hc*(S(s)+A(a)-z)*p;
                 else
@@ -34,6 +37,7 @@ for s=1:length(S)
         
             end
         end
+        
         r(s,a)=TOC +THC+TSC;
     end
 end
@@ -44,7 +48,7 @@ prob1=zeros(M+1,N+1);
 for s=1:M+1
     j=s;
     z=1;
-    while(j>1&&j>s-10)    
+    while(j>1&&j>s-Max_demand)    
             prob1(s,j)=p;
             z=z-prob1(s,j);
             j=j-1;
@@ -70,7 +74,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS.dat','w');
+fileID = fopen('Inv_sS20.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
@@ -111,7 +115,7 @@ fprintf(fileID,';\n');
 % for alpha
 fprintf(fileID,'param alpha := ');
 for i1 = 0:M
-    fprintf(fileID,'%d %d\n',i1,alpha);
+    fprintf(fileID,'%d 0.0476\n',i1);
 end
 fprintf(fileID,';\n');
 

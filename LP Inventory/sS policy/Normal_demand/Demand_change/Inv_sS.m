@@ -5,23 +5,23 @@ M = 20;% Number of states
 Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
-Max_demand=10;
+Max_demand=20;
 D=0:1:N; %demands
 T = 0:1:Time;
 K=length(D);
 %creating bins
-mu=5;
-sigma=2;
+mu=10;
+sigma=3;
 p(1)=normcdf(min(D)+0.5,mu,sigma);
 p(K)=p(1);
 for i=2:K-1
     p(i)=normcdf(i-0.5,mu,sigma)-normcdf(i-1.5,mu,sigma);
 end
 
-oc=2;%purchase cost
-sc=0.4; %shortage cost
+oc=0.5;%purchase cost
+sc=1; %shortage cost
 hc=0.2; %holding cost
-
+foc=1;
 %%
 
 %Expected reward
@@ -33,6 +33,7 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
+            TOC=oc*A(a);
             while(z<=Max_demand)
                 if(z<=S(s)+A(a))
                     THC=THC+ hc*(S(s)+A(a)-z)*p(z+1);
@@ -44,6 +45,7 @@ for s=1:length(S)
         
             end
         end
+        
         r(s,a)=TOC +THC+TSC;
     end
 end
@@ -82,7 +84,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS10.dat','w');
+fileID = fopen('Inv_sS20_foc.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);

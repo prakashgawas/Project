@@ -1,17 +1,17 @@
 
 clear all;
-N = 20;% Number of items you can order
-M = 20;% Number of states
-Time = 10;
+N = 3;% Number of items you can order
+M = 3;% Number of states
+Time = 5;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
  
-Max_demand=10;
+Max_demand=3;
 p = 1/(Max_demand+1);
 
-oc=2;%purchase cost
-sc=1; %shortage cost
+oc=0.4;%purchase cost
+sc=0.7; %shortage cost
 hc=0.2; %holding cost
 
 %%
@@ -25,9 +25,10 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
+            TOC=oc*A(a);
             while(z<=Max_demand)
                 if(z<=S(s)+A(a))
-                    THC=THC+ hc*(S(s)+A(a)-z)*p;
+                    THC=THC+ hc*((S(s)+A(a)-z))*p;
                 else
                     TSC=TSC+sc*(z-S(s)-A(a))*p;
                 end
@@ -36,6 +37,7 @@ for s=1:length(S)
         
             end
         end
+        
         r(s,a)=TOC +THC+TSC;
     end
 end
@@ -113,7 +115,7 @@ fprintf(fileID,';\n');
 % for alpha
 fprintf(fileID,'param alpha := ');
 for i1 = 0:M
-    fprintf(fileID,'%d 0.0476\n',i1);
+    fprintf(fileID,'%d %d\n',i1,p);
 end
 fprintf(fileID,';\n');
 

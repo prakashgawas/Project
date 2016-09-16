@@ -12,7 +12,7 @@ param alpha{S};#initial distribution
 
 var y{T,S,A} >=0; #variable- total joint probability
 
-minimize cost: sum{s in S,t in T,a in A:t<=Time-1 and s+a<=20} Reward[s,a,t]*y[t,s,a];
-s.t. con1{s in S}:sum{a in A:s+a<=20}y[0,s,a]=alpha[s];
-s.t. con2{s in S,t in T:t<=Time-1 and t>=1}:sum{a in A:s+a<=20}y[t,s,a]=sum{j in S,a in A}Prob[j,s,a]*y[t-1,j,a];
+minimize cost: sum{s in S,t in T,a in A:t<=Time-1 and s+a<=Max_num_States} Reward[s,a,t]*y[t,s,a];
+s.t. con1{s in S}:sum{a in A:s+a<=Max_num_States}y[0,s,a]=alpha[s];
+s.t. con2{s in S,t in T:t<=Time-1 and t>=1}:sum{a in A:s+a<=Max_num_States}y[t,s,a]=sum{j in S,a in A}Prob[j,s,a]*y[t-1,j,a];
 #Terminal reward is zero
