@@ -1,19 +1,19 @@
 
 clear all;
-N = 3;% Number of items you can order
-M = 3;% Number of states
-Time = 5;
+N = 5;% Number of items you can order
+M = 5;% Number of states
+Time = 4;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
  
-Max_demand=3;
+Max_demand=5;
 p = 1/(Max_demand+1);
 
 oc=0.4;%purchase cost
-sc=0.7; %shortage cost
+sc=0.8; %shortage cost
 hc=0.2; %holding cost
-
+foc=0.5; %fixed ordering cost
 %%
 
 %Expected reward
@@ -25,10 +25,10 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
-            TOC=oc*A(a);
+            TOC=oc*A(a)+foc*(A(a)>0);
             while(z<=Max_demand)
                 if(z<=S(s)+A(a))
-                    THC=THC+ hc*((S(s)+A(a)-z))*p;
+                    THC=THC+ hc*(S(s)+A(a)-z)*p;
                 else
                     TSC=TSC+sc*(z-S(s)-A(a))*p;
                 end
@@ -74,7 +74,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS.dat','w');
+fileID = fopen('Inv_sS20.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
@@ -158,8 +158,4 @@ for a = 1:length(A)
     fprintf(fileID,' \n');
 end
         
-
- 
-
-
 

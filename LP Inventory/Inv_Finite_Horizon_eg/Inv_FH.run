@@ -1,7 +1,0 @@
-reset;
-option solver gurobi;
-model Inv_FH.mod;
-data Inv_FH.dat;
-option show_stats 1;
-option presolve 0;
-solve;
