@@ -2,7 +2,7 @@
 clear all;
 N = 3;
 M = 3;% Number of states
-Time = 5;
+Time = 3;
 S = 0:1:N ; % states
 T = 0:1:Time;
 p = [ .25, 0.5, 0.25]; 

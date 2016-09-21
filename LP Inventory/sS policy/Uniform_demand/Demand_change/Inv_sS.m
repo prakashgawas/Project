@@ -1,13 +1,13 @@
 
 clear all;
-N = 20;% Number of items you can order
-M = 20;% Number of states
+N = 10;% Number of items you can order
+M = 10;% Number of states
 Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
  
-Max_demand=20;
+Max_demand=10;
 p = 1/(Max_demand+1);
 
 oc=0.4;%purchase cost
@@ -74,7 +74,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS20.dat','w');
+fileID = fopen('Inv_sS10.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
@@ -115,7 +115,7 @@ fprintf(fileID,';\n');
 % for alpha
 fprintf(fileID,'param alpha := ');
 for i1 = 0:M
-    fprintf(fileID,'%d 0.0476\n',i1);
+    fprintf(fileID,'%d %d\n',i1,1/(Max_demand+1));
 end
 fprintf(fileID,';\n');
 

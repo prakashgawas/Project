@@ -11,11 +11,9 @@ T = 1:1:Time;
 K=length(D);
 %creating bins
 mu=10;
-sigma=3;
-p(1)=normcdf(min(D)+0.5,mu,sigma);
-p(K)=p(1);
-for i=2:K-1
-    p(i)=normcdf(i-0.5,mu,sigma)-normcdf(i-1.5,mu,sigma);
+
+for i=1:K-1
+    p(i)=expcdf(i,mu)-expcdf(i-1,mu);
 end
 
 oc=0.5;%purchase cost

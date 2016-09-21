@@ -1,17 +1,17 @@
 
 clear all;
-N = 20;% Number of items you can order
-M = 20;% Number of states
+N = 10;% Number of items you can order
+M = 10;% Number of states
 Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
-Max_demand=20;
+Max_demand=10;
 D=0:1:N; %demands
 T = 1:1:Time;
 K=length(D);
 %creating bins
-mu=10;
-sigma=3;
+mu=5;
+sigma=2;
 p(1)=normcdf(min(D)+0.5,mu,sigma);
 p(K)=p(1);
 for i=2:K-1
@@ -84,7 +84,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS20_foc.dat','w');
+fileID = fopen('Inv_sS10_foc.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
@@ -125,7 +125,7 @@ fprintf(fileID,';\n');
 % for alpha
 fprintf(fileID,'param alpha := ');
 for i1 = 0:M
-    fprintf(fileID,'%d 0.0476\n',i1);
+    fprintf(fileID,'%d %d\n',i1,1/(M+1));
 end
 fprintf(fileID,';\n');
 
