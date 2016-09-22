@@ -10,14 +10,14 @@ D=0:1:N; %demands
 T = 1:1:Time;
 K=length(D);
 %creating bins
-mu=10;
+mu=4;
 
-for i=1:K-1
+for i=1:K
     p(i)=expcdf(i,mu)-expcdf(i-1,mu);
 end
 
 oc=0.5;%purchase cost
-sc=1; %shortage cost
+sc=2; %shortage cost
 hc=0.2; %holding cost
 foc=1;
 %%
