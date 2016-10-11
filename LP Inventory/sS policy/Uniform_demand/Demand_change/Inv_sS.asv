@@ -25,7 +25,7 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
-            TOC=oc*A(a);
+            TOC=oc*A(a)+foc*(A(a)>0);
             while(z<=Max_demand)
                 if(z<=S(s)+A(a))
                     THC=THC+ hc*(S(s)+A(a)-z)*p;
@@ -74,7 +74,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS20.dat','w');
+fileID = fopen('Inv_sS10.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
@@ -115,7 +115,7 @@ fprintf(fileID,';\n');
 % for alpha
 fprintf(fileID,'param alpha := ');
 for i1 = 0:M
-    fprintf(fileID,'%d 0.0476\n',i1);
+    fprintf(fileID,'%d %d\n',i1,1/(Max_demand+1));
 end
 fprintf(fileID,';\n');
 

@@ -1,0 +1,7 @@
+reset;
+option solver gurobi;
+model Inv_FH_risk.mod;
+data Inv_FH_risk5.dat;
+option show_stats 1;
+option presolve 0;
+solve;

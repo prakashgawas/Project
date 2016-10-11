@@ -4,15 +4,21 @@ M = 20;% Number of states
 Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
-T = 1:1:Time;
- 
 Max_demand=20;
-p = 1/(Max_demand+1);
+D=0:1:N; %demands
+T = 1:1:Time;
+K=length(D);
+%creating bins
+mu=4;
 
-oc=0.4;%purchase cost
+for i=1:K+80
+    p(i)=expcdf(i,mu)-expcdf(i-1,mu);
+end
+
+oc=0.5;%purchase cost
 sc=0.8; %shortage cost
 hc=0.2; %holding cost
-foc=0.5;%fixed ordering cost
+foc=0.5;
 %%
 
 %Expected reward
@@ -24,12 +30,12 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
-            TOC=oc*A(a);
-            while(z<=Max_demand)
-                if(z<=S(s)+A(a))
-                    THC=THC+ hc*((S(s)+A(a)-z))*p;
+            TOC=oc*A(a)+foc*(A(a)>0);
+            while(z<=Max_demand+80)
+                if(z<S(s)+A(a))
+                    THC=THC+ hc*(S(s)+A(a)-z)*p(z+1);
                 else
-                    TSC=TSC+sc*((z-S(s)-A(a)))*p;
+                    TSC=TSC+sc*(z-S(s)-A(a))*p(z+1);
                 end
             
                 z=z+1;
@@ -47,10 +53,12 @@ prob1=zeros(M+1,N+1);
 for s=1:M+1
     j=s;
     z=1;
+    i=1;
     while(j>1&&j>s-Max_demand)    
-            prob1(s,j)=p;
+            prob1(s,j)=p(i);
             z=z-prob1(s,j);
             j=j-1;
+            i=i+1;
     end
     prob1(s,j)=z;
 end
@@ -69,6 +77,7 @@ for s=1:length(S)
     end
 end
 
+
 decision1=zeros(M+1,Time-1);
 u=zeros(M+1,N+1);
 u_s=zeros(M+1,1);
@@ -79,7 +88,7 @@ for t=length(T)-1:-1:1
             if(S(s)+A(a)<=M)
                 u(s,a)=r(s,a)+prob(s,:,a)*u_s;
             else
-                u(s,a)=1000;
+                u(s,a)=10000000;
             end
         end
     end

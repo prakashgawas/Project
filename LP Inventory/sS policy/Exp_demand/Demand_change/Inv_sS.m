@@ -10,44 +10,40 @@ D=0:1:N; %demands
 T = 1:1:Time;
 K=length(D);
 %creating bins
-mu=4;
+mu=6;
 
 for i=1:K
     p(i)=expcdf(i,mu)-expcdf(i-1,mu);
 end
 
 oc=0.5;%purchase cost
-sc=2; %shortage cost
+sc=0.8; %shortage cost
 hc=0.2; %holding cost
-foc=1;
+foc=0.5;
 %%
 
 %Expected reward
-r=zeros(M+1,N+1);
+TSC=zeros(M+1,N+1);
 for s=1:length(S)
     for a=1:length(A)
-        TOC=0;
-        z=0;
-        THC=0;
-        TSC=0;
         if(S(s)+A(a)<=M)
-            TOC=oc*A(a)+foc*(A(a)>0);
-            while(z<=Max_demand)
-                if(z<=S(s)+A(a))
-                    THC=THC+ hc*(S(s)+A(a)-z)*p(z+1);
-                else
-                    TSC=TSC+sc*(z-S(s)-A(a))*p(z+1);
-                end
-            
-                z=z+1;
-        
-            end
+            THC(s,a)=hc*S(s);
+            TOC(s,a)=(oc*A(a)+foc*(A(a)>0));
         end
-        
-        r(s,a)=TOC +THC+TSC;
     end
 end
-    
+
+TSC(1,:)= sc*mu;
+r_1=TOC;
+r=TOC+TSC+THC;
+for s=1:length(S)
+    if(S(s)==0)
+        r_T(s)=TSC(1,1);
+    else
+        r_T(s)=hc*S(s);
+    end
+end
+
 %transition probability
 prob1=zeros(M+1,N+1);
 
@@ -82,7 +78,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS20_foc.dat','w');
+fileID = fopen('Inv_sS20.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
@@ -123,7 +119,7 @@ fprintf(fileID,';\n');
 % for alpha
 fprintf(fileID,'param alpha := ');
 for i1 = 0:M
-    fprintf(fileID,'%d 0.0476\n',i1);
+    fprintf(fileID,'%d %d\n',i1,1/(M+1));
 end
 fprintf(fileID,';\n');
 
@@ -136,7 +132,8 @@ fprintf(fileID,';\n');
 
 % for rewards
 
-fprintf(fileID,'param Reward :=');
+%reward general
+fprintf(fileID,'param Reward := ');
 for t = 1:length(T)
     str=sprintf('[*,*,%d]: \t',t-1);
     str1 = sprintf('%d ', 0:1:N );
@@ -147,6 +144,25 @@ for t = 1:length(T)
         fprintf(fileID,'%s \n', str1);
     end
     fprintf(fileID,' \n');
+end
+fprintf(fileID,';\n');
+
+%reward other 1
+fprintf(fileID,'param Reward_1 :');
+str1 = sprintf('%d ', 0:1:N );
+fprintf(fileID,' %s  := \n', str1);
+for s = 1:length(S) 
+    fprintf(fileID,' %d \t', s-1);
+    str1 = sprintf('%1.15f ', r_1(s,:) ); 
+    fprintf(fileID,'%s \n', str1);
+end
+fprintf(fileID,' \n');
+fprintf(fileID,';\n');
+
+%reward Terminal
+fprintf(fileID,'param Reward_T :=');
+for i1 = 0:M
+    fprintf(fileID,'%d %d\n',i1,r_T(i1+1));
 end
 fprintf(fileID,';\n');
 
@@ -166,8 +182,3 @@ for a = 1:length(A)
     fprintf(fileID,' \n');
 end
         
-
- 
-
-
-

@@ -8,37 +8,36 @@ A= 0:1:N;%actions
 T = 0:1:Time;
  
 Max_demand=20;
-p = 1/(Max_demand+1);
+pr=0.3;
+for i=1:Max_demand+1
+    p(i)=geopdf(i-1,pr);
+end
 
 oc=0.4;%purchase cost
-sc=0.8; %shortage cost
-hc=0.2; %holding cost
-foc=0.5; %fixed ordering cost
+sc=1; %shortage cost
+hc=0.1; %holding cost
+foc=0.2; %fixed ordering cost
 %%
 
 %Expected reward
-r=zeros(M+1,N+1);
+TSC=zeros(M+1,N+1);
 for s=1:length(S)
     for a=1:length(A)
-        TOC=0;
-        z=0;
-        THC=0;
-        TSC=0;
         if(S(s)+A(a)<=M)
-            TOC=oc*A(a)+foc*(A(a)>0);
-            while(z<=Max_demand)
-                if(z<=S(s)+A(a))
-                    THC=THC+ hc*(S(s)+A(a)-z)*p;
-                else
-                    TSC=TSC+sc*(z-S(s)-A(a))*p;
-                end
-            
-                z=z+1;
-        
-            end
+            THC(s,a)=hc*S(s);
+            TOC(s,a)=(oc*A(a)+foc*(A(a)>0));
         end
-        
-        r(s,a)=TOC +THC+TSC;
+    end
+end
+
+TSC(1,:)= sc*(1-pr)/pr;
+r_1=TOC;
+r=TOC+TSC+THC;
+for s=1:length(S)
+    if(S(s)==0)
+        r_T(s)=TSC(1,1);
+    else
+        r_T(s)=hc*S(s);
     end
 end
     
@@ -48,10 +47,12 @@ prob1=zeros(M+1,N+1);
 for s=1:M+1
     j=s;
     z=1;
+    i=1;
     while(j>1&&j>s-Max_demand)    
-            prob1(s,j)=p;
+            prob1(s,j)=p(i);
             z=z-prob1(s,j);
             j=j-1;
+            i=i+1;
     end
     prob1(s,j)=z;
 end
@@ -128,7 +129,8 @@ fprintf(fileID,';\n');
 
 % for rewards
 
-fprintf(fileID,'param Reward :=');
+%reward general
+fprintf(fileID,'param Reward := ');
 for t = 1:length(T)
     str=sprintf('[*,*,%d]: \t',t-1);
     str1 = sprintf('%d ', 0:1:N );
@@ -139,6 +141,25 @@ for t = 1:length(T)
         fprintf(fileID,'%s \n', str1);
     end
     fprintf(fileID,' \n');
+end
+fprintf(fileID,';\n');
+
+%reward other 1
+fprintf(fileID,'param Reward_1 :');
+str1 = sprintf('%d ', 0:1:N );
+fprintf(fileID,' %s  := \n', str1);
+for s = 1:length(S) 
+    fprintf(fileID,' %d \t', s-1);
+    str1 = sprintf('%1.15f ', r_1(s,:) ); 
+    fprintf(fileID,'%s \n', str1);
+end
+fprintf(fileID,' \n');
+fprintf(fileID,';\n');
+
+%reward Terminal
+fprintf(fileID,'param Reward_T :=');
+for i1 = 0:M
+    fprintf(fileID,'%d %d\n',i1,r_T(i1+1));
 end
 fprintf(fileID,';\n');
 
@@ -157,9 +178,3 @@ for a = 1:length(A)
     end
     fprintf(fileID,' \n');
 end
-        
-
- 
-
-
-

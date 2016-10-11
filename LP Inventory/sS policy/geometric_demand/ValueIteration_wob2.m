@@ -4,15 +4,18 @@ M = 20;% Number of states
 Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
-T = 1:1:Time;
+T = 0:1:Time;
  
 Max_demand=20;
-p = 1/(Max_demand+1);
+pr=0.3;
+for i=1:Max_demand+1
+    p(i)=geopdf(i-1,pr);
+end
 
 oc=0.4;%purchase cost
-sc=0.8; %shortage cost
-hc=0.2; %holding cost
-foc=0.5;%fixed ordering cost
+sc=1; %shortage cost
+hc=0.1; %holding cost
+foc=0.2; %fixed ordering cost
 %%
 
 %Expected reward
@@ -24,12 +27,12 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
-            TOC=oc*A(a);
-            while(z<=Max_demand)
-                if(z<=S(s)+A(a))
-                    THC=THC+ hc*((S(s)+A(a)-z))*p;
+            TOC=oc*A(a)+foc*(A(a)>0);
+            while(z<=100)
+                if(z<S(s)+A(a))
+                    THC=THC+ hc*(S(s)+A(a)-z)*geopdf(z,pr);
                 else
-                    TSC=TSC+sc*((z-S(s)-A(a)))*p;
+                    TSC=TSC+sc*(z-S(s)-A(a))*geopdf(z,pr);
                 end
             
                 z=z+1;
@@ -47,10 +50,12 @@ prob1=zeros(M+1,N+1);
 for s=1:M+1
     j=s;
     z=1;
+    i=1;
     while(j>1&&j>s-Max_demand)    
-            prob1(s,j)=p;
+            prob1(s,j)=p(i);
             z=z-prob1(s,j);
             j=j-1;
+            i=i+1;
     end
     prob1(s,j)=z;
 end
@@ -69,6 +74,8 @@ for s=1:length(S)
     end
 end
 
+%%
+%program
 decision1=zeros(M+1,Time-1);
 u=zeros(M+1,N+1);
 u_s=zeros(M+1,1);
@@ -93,5 +100,5 @@ decision1=decision1-1;
 decision=zeros(M+2,Time);
 decision(2:M+2,1)=S';
 decision(1,2:Time)=1:Time-1;
-decision(2:M+2,2:Time)=decision1;
+decision(2:M+2,2:Time+1)=decision1;
 disp(decision);

@@ -5,15 +5,21 @@ M = 20;% Number of states
 Time = 10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
-T = 0:1:Time;
- 
 Max_demand=20;
-p = 1/(Max_demand+1);
+D=0:1:N; %demands
+T = 1:1:Time;
+K=length(D);
+%creating bins
+mu=4;
 
-oc=0.4;%purchase cost
+for i=1:K+80
+    p(i)=expcdf(i,mu)-expcdf(i-1,mu);
+end
+
+oc=0.5;%purchase cost
 sc=0.8; %shortage cost
 hc=0.2; %holding cost
-foc=0.5; %fixed ordering cost
+foc=0.5;
 %%
 
 %Expected reward
@@ -26,11 +32,11 @@ for s=1:length(S)
         TSC=0;
         if(S(s)+A(a)<=M)
             TOC=oc*A(a)+foc*(A(a)>0);
-            while(z<=Max_demand)
-                if(z<=S(s)+A(a))
-                    THC=THC+ hc*(S(s)+A(a)-z)*p;
+            while(z<=Max_demand+80)
+                if(z<S(s)+A(a))
+                    THC=THC+ hc*(S(s)+A(a)-z)*p(z+1);
                 else
-                    TSC=TSC+sc*(z-S(s)-A(a))*p;
+                    TSC=TSC+sc*(z-S(s)-A(a))*p(z+1);
                 end
             
                 z=z+1;
@@ -48,10 +54,12 @@ prob1=zeros(M+1,N+1);
 for s=1:M+1
     j=s;
     z=1;
+    i=1;
     while(j>1&&j>s-Max_demand)    
-            prob1(s,j)=p;
+            prob1(s,j)=p(i);
             z=z-prob1(s,j);
             j=j-1;
+            i=i+1;
     end
     prob1(s,j)=z;
 end
@@ -74,7 +82,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS20.dat','w');
+fileID = fopen('Inv_sS20_2.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
@@ -115,7 +123,7 @@ fprintf(fileID,';\n');
 % for alpha
 fprintf(fileID,'param alpha := ');
 for i1 = 0:M
-    fprintf(fileID,'%d %d\n',i1,1/(Max_demand+1));
+    fprintf(fileID,'%d %d\n',i1,1/(M+1));
 end
 fprintf(fileID,';\n');
 
@@ -158,8 +166,3 @@ for a = 1:length(A)
     fprintf(fileID,' \n');
 end
         
-
- 
-
-
-
