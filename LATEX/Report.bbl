@@ -1,0 +1,45 @@
+\begin{thebibliography}{1}
+
+\bibitem{filar1989variance}
+Jerzy~A Filar, Lodewijk~CM Kallenberg, and Huey-Miin Lee.
+\newblock Variance-penalized markov decision processes.
+\newblock {\em Mathematics of Operations Research}, 14(1):147--161, 1989.
+
+\bibitem{gosavi2006risk}
+Abhijit Gosavi.
+\newblock A risk-sensitive approach to total productive maintenance.
+\newblock {\em Automatica}, 42(8):1321--1330, 2006.
+
+\bibitem{howard1972risk}
+Ronald~A. Howard and James~E. Matheson.
+\newblock Risk-sensitive markov decision processes.
+\newblock {\em Management Science}, 18(7):356--369, 1972.
+
+\bibitem{kumar2015finite}
+Atul Kumar, Veeraruna Kavitha, and N~Hemachandra.
+\newblock Finite horizon risk sensitive mdp and linear programming.
+\newblock In {\em 2015 54th IEEE Conference on Decision and Control (CDC)},
+  pages 7826--7831. IEEE, 2015.
+
+\bibitem{liu2005risk}
+Yaxin Liu and Sven Koenig.
+\newblock Risk-sensitive planning with one-switch utility functions: Value
+  iteration.
+\newblock In {\em AAAI}, pages 993--999, 2005.
+
+\bibitem{mannor2011mean}
+Shie Mannor and John Tsitsiklis.
+\newblock Mean-variance optimization in markov decision processes.
+\newblock {\em arXiv preprint arXiv:1104.5601}, 2011.
+
+\bibitem{puterman1990market}
+Martin~L Puterman.
+\newblock Market decision process.
+\newblock {\em Chapter}, 8:5--1, 1990.
+
+\bibitem{scarf1959optimality}
+Herbert Scarf.
+\newblock The optimality of (s, s) policies in the dynamic inventory problem.
+\newblock {\em Mathematical Methods in the Social Sciences}, 1959.
+
+\end{thebibliography}

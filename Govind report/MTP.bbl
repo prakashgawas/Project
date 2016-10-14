@@ -1,0 +1,29 @@
+\begin{thebibliography}{1}
+
+\bibitem{bell1982regret}
+David~E Bell.
+\newblock Regret in decision making under uncertainty.
+\newblock {\em Operations research}, 30(5):961--981, 1982.
+
+\bibitem{dong2014double}
+Wei Dong, Swati Rallapalli, Lili Qiu, KK~Ramakrishnan, and Yin Zhang.
+\newblock Double auctions for dynamic spectrum allocation.
+\newblock In {\em IEEE INFOCOM 2014-IEEE Conference on Computer
+  Communications}, pages 709--717. IEEE, 2014.
+
+\bibitem{du2016bilateral}
+Songzi Du and Haoxiang Zhu.
+\newblock Bilateral trading in divisible double auctions.
+\newblock {\em Available at SSRN 2794813}, 2016.
+
+\bibitem{filizy2005auctions}
+Emel Filizy and Erkut~Yusuf Ozbayz.
+\newblock Auctions with anticipated regret¤.
+\newblock 2005.
+
+\bibitem{gjerstad1998price}
+Steven Gjerstad and John Dickhaut.
+\newblock Price formation in double auctions.
+\newblock {\em Games and economic behavior}, 22(1):1--29, 1998.
+
+\end{thebibliography}

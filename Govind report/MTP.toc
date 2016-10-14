@@ -1,0 +1,54 @@
+\contentsline {chapter}{\numberline {1}Preamble}{7}
+\contentsline {section}{\numberline {1.1}Introduction}{7}
+\contentsline {section}{\numberline {1.2}Scope of the project}{7}
+\contentsline {section}{\numberline {1.3}Outline of the report}{7}
+\contentsline {chapter}{\numberline {2}Literature review}{9}
+\contentsline {section}{\numberline {2.1}Introduction}{9}
+\contentsline {subsection}{\numberline {2.1.1}Basic terminology}{9}
+\contentsline {subsubsection}{Auction}{9}
+\contentsline {subsubsection}{Risk Neutral Nash Equilibrium (RNNE)}{9}
+\contentsline {subsubsection}{Risk aversion}{9}
+\contentsline {subsubsection}{Overbidding \& Underbidding}{9}
+\contentsline {subsubsection}{Reservation price}{9}
+\contentsline {subsubsection}{Auction as a game}{9}
+\contentsline {subsubsection}{Double Auction}{10}
+\contentsline {section}{\numberline {2.2}Theory}{10}
+\contentsline {subsubsection}{Loser Regret}{10}
+\contentsline {subsubsection}{Winner Regret}{10}
+\contentsline {subsubsection}{Regret Anticipation }{10}
+\contentsline {subsubsection}{flow of the problem}{11}
+\contentsline {subsubsection}{Economic analysis of double auction}{11}
+\contentsline {section}{\numberline {2.3}Model Part}{12}
+\contentsline {subsection}{\numberline {2.3.1}Loser Regret in First price sealed bid aution}{12}
+\contentsline {subsubsection}{Theorem 1}{12}
+\contentsline {subsection}{\numberline {2.3.2}Winner Regret in First price sealed bid auction}{12}
+\contentsline {subsubsection}{Theorem 2}{13}
+\contentsline {subsection}{\numberline {2.3.3}Game-theoretic analysis in double auction}{13}
+\contentsline {chapter}{\numberline {3}Experimental review}{14}
+\contentsline {section}{\numberline {3.1}Introduction}{14}
+\contentsline {section}{\numberline {3.2}Description of the experiment (Method)}{14}
+\contentsline {subsection}{\numberline {3.2.1}Result}{15}
+\contentsline {section}{\numberline {3.3}Experimental Results with Theory}{17}
+\contentsline {chapter}{\numberline {4}Models and algorithm}{19}
+\contentsline {section}{\numberline {4.1}Markets as Substitute for Rationality}{19}
+\contentsline {section}{\numberline {4.2}Regret felt by a single seller for dynamic pricing of the product}{20}
+\contentsline {section}{\numberline {4.3}Double Auction with Zero Intelligence (ZI) Agents \citep {dong2014double}}{21}
+\contentsline {section}{\numberline {4.4}Conclusion from the model}{21}
+\contentsline {chapter}{\numberline {5}Further discussion}{22}
+\contentsline {section}{\numberline {5.1}Winner Regret in Other Auctions}{22}
+\contentsline {subsection}{\numberline {5.1.1}Second price auction:}{22}
+\contentsline {subsection}{\numberline {5.1.2}Dutch auction:}{22}
+\contentsline {subsection}{\numberline {5.1.3}English auction:}{22}
+\contentsline {section}{\numberline {5.2}Loser Regret in Other Auctions}{22}
+\contentsline {subsection}{\numberline {5.2.1}Second price auction:}{22}
+\contentsline {subsection}{\numberline {5.2.2}Dutch auction:}{23}
+\contentsline {subsection}{\numberline {5.2.3}English auction:}{23}
+\contentsline {chapter}{\numberline {6}Conclusion $\textbf {\&}$ Future work}{24}
+\contentsline {section}{\numberline {6.1}Future Work}{24}
+\contentsline {chapter}{\numberline {A}Python code for Regret felt by a single seller for dynamic pricing of the product}{26}
+\contentsline {section}{\numberline {A.1}Code for probability of regret}{26}
+\contentsline {section}{\numberline {A.2}Code for Distribution Verification of random data}{27}
+\contentsline {chapter}{\numberline {B}Python code for Double Auction with Zero Intelligence (ZI) Agents}{28}
+\contentsline {section}{\numberline {B.1}Code for supply and demand curve}{28}
+\contentsline {section}{\numberline {B.2}Code for calculation of clearing price}{28}
+\contentsline {section}{\numberline {B.3}Code for initiation of double auction}{28}

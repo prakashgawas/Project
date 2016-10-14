@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper,oneside]{report}
+\documentclass[12pt,a4paper,oneside]{report}
 %\usepackage[utf8]{inputenc}
 \usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
 \usepackage{listing}
@@ -7,7 +7,7 @@
 \usepackage{natbib}
 \usepackage{amssymb, amsthm}
 \usepackage{float}
-%\usepackage{ dsfont }
+\usepackage{ bbold }
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -19,8 +19,13 @@
 \usepackage{color}
 \usepackage{fancybox}
 \usepackage{lipsum}
-
-		
+ \usepackage{relsize}
+\usepackage{environ}
+\NewEnviron{myequation}{
+    \begin{equation}
+    \scalebox{1.5}{$\BODY$}
+    \end{equation}
+    }		
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead{}
@@ -28,7 +33,7 @@
 \fancyfoot{}
 \fancyfoot[LE,RO]{\thepage}
 \fancyfoot[LO,CE]{Chapter \hspace{0.6mm}\thechapter}
-\fancyfoot[CO,RE]{Prakash}
+%\fancyfoot[CO,RE]{Prakash}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -61,7 +66,7 @@ I declare that this written submission represents my idea in my own words and wh
 \noindent Date:\hfill Prakash Arjun Gawas                     
 \begin{flushright}(153190002)\end{flushright}
 \chapter*{Acknowledment}
-I would like to extend thanks to the many people who so generously contributed to the work presented in the thesis.Special mention goes to my enthusiastic supervisor, \textbf{Prof. Veeraruna Kavitha} for giving me opportunity of working under his guidence.His Direction, motivation,affectionate guidance and support have been the source of inspiration to bring the report this shape.I thank all the other faculty member of Industrial Engineering And Operations Research, who made me realize the virtue of learning through sustained hard work.
+I would like to extend thanks to the many people who so generously contributed to the work presented in the thesis.Special mention goes to my enthusiastic supervisor, \textbf{Prof. Veeraruna Kavitha} for giving me opportunity of working under his guidance.His Direction, motivation,affectionate guidance and support have been the source of inspiration to bring the report this shape.I thank all the other faculty member of Industrial Engineering And Operations Research, who made me realize the virtue of learning through sustained hard work.
 \vspace{6mm}
 
 \noindent I would like to thanks all those whose name i missed but have contributed in any form for building up of the thesis upto now.
@@ -79,40 +84,74 @@ The project study is based on the
 \listoftables
 \chapter{Preamble}
 \section{Introduction}
-Markov Decision process (MDP) is a mathematical framework that solves the problem of sequential decision making under uncertainty, to obtain an optimal policy. At each decision epoch the system state provides the decision maker with all necessary information for choosing an action from available actions in that state. As result of an action the decision maker receives a reward and the system state evolves to possibly different state at the next epoch depending on the controlled transition probability. Each action, the decision maker chooses in any particular state and at any time slot t, will have an associated reward/running cost $(R_t)$. The reward depends also on the current system state. In case of finite horizon problems, it also considers a terminal cost that only depends upon the state at termination. Hence over time the decision maker will receive a sequence reward/costs.\\
+Markov Decision process (MDP) is a mathematical framework that solves the problem of sequential decision making under uncertainty, to obtain an optimal policy. At each decision epoch the system state provides the decision maker with all necessary information for choosing an action from available actions in that state. As result of an action the decision maker receives an immediate reward and the system state evolves to a possibly different state at the next epoch depending on the controlled (action based) transition probability. Each action, the decision maker chooses in any particular state and at any time slot t, will have an associated reward/running cost $(R_t)$. The reward depends also on the current system state. In case of finite horizon problems, it also considers a terminal cost that only depends upon the state at termination. Hence over time the decision maker will receive a sequence of reward/costs.\\
 
-\noindent A policy is a sequence of such actions/rules, which the decision maker chooses at any time epoch depending on the state of the system. The aim of MDP is to find a policy prior to the first decision epoch that maximizes a function f of these reward sequences. In general MDP optimizes the expected value of the function f that defines a way of aggregating the running costs related to all the time slots under consideration, i.e., to optimize $E[f(R_1,R_2,...)]$. Linear MDPs consider expected value of either sum of all the running costs $E[\sum_t{R_t} ]$, or sum of discounted values of all the running costs $E[\sum_t{\beta^t {R_t}} ]$ with discount factor $\beta<1$ or time average of the running costs $\displaystyle\lim_{T \to \infty}\frac{[E[\sum_{t\leq T}{R_t}]}{T}$ .They are respectively called total cost, discounted cost or average cost problems. Also MDP problem can either be modelled over a finite time horizon or over the infinite time horizon. \\
-
-
-\noindent Linear MDPs also called risk neutral MDPs control the first moment (expected value) of the sum cost. Optimization of the expected cost of an MDP is well studied. Many approaches have been developed to solve the problem. Dynamic programming (DP) is very popular technique to find optimal policies for finite horizon problems. Dynamic programming involves finding the optimal expected cost using Backward Induction. It basically solves a big problem by dividing it into many sub problems and than optimizing these sub problems. This is based on the famous Optimality equations from given in []. This gives rise to what is known as the Principle of Optimality where no matter what the current state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision. Others solution methods include Value and Policy iteration and its variants. These are iterative algorithms based on fixed point equations derived from the Optimality equations the theory of equations on normed linear spaces. The relationship between discounted MDPs and Linear programs (LPs) is also pretty well defined. Though not efficient LPs have elegant theory, ease in addition of additional constraints and facility of sensitivity analysis make it very attractable in some cases. LPs are derived based on Properties of the solutions to the optimality equations [citing theorem in puterman]. Primal linear program finds the optimal value while its dual gives the optimal policy to be followed.\\
+\noindent A policy is a sequence of such actions/rules, which the decision maker chooses at any time epoch depending on the state of the system. The aim of MDP is to find a policy prior to the first decision epoch that maximizes the expected value of a function $f$ of the reward sequences. In general MDP optimizes the expected value of the function $f$ that defines a way of aggregating the running costs related to all the time slots under consideration, i.e., to optimize $E[f(R_1,R_2,...)]$. Linear MDPs consider expected value of either sum of all the running costs $E[\sum_t{R_t} ]$, or sum of discounted values of all the running costs $E[\sum_t{\beta^t {R_t}} ]$ with discount factor $\beta<1$, or time average of the running costs $\lim_{T \to \infty}{[E[ \sum_{t\leq T}{R_t}]}{/T}$ .They are respectively called total cost, discounted cost or average cost problems. Also MDP whether discounted or total cost, can either be modelled over a finite time horizon or over the infinite time horizon. \\
 
 
-In some situations we may also want to control the fluctuations around the expected value than we need to turn to Risk Sensitive MDPs (RSMDPs). RSMDPs can have varied applications in diverse fields. From investment of funds to manufacturing processes one can use RSMDPs to find optimal decisions. RSMDPs basically mean giving varied importance to higher moments of the total expected cost. One can also just optimize a function of mean and variance only as in [].  The literature on RSMDPs is relatively limited though. In [], Howard and Matheson have considered the maximisation of total reward with a constant risk sensitive parameter. They have discussed the application of iterative algorithms like Value Iteration and Policy Iteration to risk sensitive case. Recently in [] ,authors have proposed an LP based approach to solve the RSMDPs for finite horizon problem. Also they have augmented the state space appropriately so as to make addition of more constrains simple. The relation between LPs and infinite horizon is even more complex and needs to be investigated.\\ 
+\noindent Linear MDPs, also called risk neutral MDPs, control the first moment (expected value) of the sum cost. Optimization of the expected cost of an MDP is well studied. Many approaches have been developed to solve the problem. Dynamic programming (DP) is very popular technique to find optimal policies for finite horizon problems. Dynamic programming involves finding the optimal expected cost using Backward Induction. It basically solves a big problem by dividing it into many sub problems and than optimizing these sub problems. The corresponding equations are called optimality equations \citep{puterman1990market}. This gives rise to what is known as the Principle of Optimality where no matter what the current state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision. Others solution methods include Value Iterations, Policy iteration and their variants. These are iterative algorithms based on fixed point equations derived from the Optimality equations and the theory of contraction mappings on normed linear spaces. The relationship between discounted MDPs and Linear programs (LPs) is also pretty well defined. Though not efficient, LPs have elegant theory: ease in addition of additional constraints and facility of sensitivity analysis make it very attractable in some cases. LPs are derived based on properties of the solutions to the optimality equations (see Theoram 6.2.2, \cite{puterman1990market}). Primal linear program finds the optimal value while its dual provides the optimal policy.\\
 
 
-\noindent MDPs can be applied to varied examples in real life situations. One such application is the classic inventory control problem. In Inventory Control problem the decision maker must decide how much to order in each time period to meet demand for its products. The demand  is considered to be stochastic, where the distribution function is known. The objective here is to find a policy of ordering at any time epoch so as to minimize the total cost incurred for total period of time T thus making it a finite horizon problem. The various cost incurred depends on the current state of inventory, amount ordered and demand in that time period. There are three basic cost considered in this situation. Ordering cost that includes total  ordering cost of the quantity and also fixed order set-up cost. Holding cost for storing inventory and carrying it into the next period. Shortage cost is applicable when we cannot fulfil the demand on hand. All the costs are considered to be linear. Hence depending upon the demand the current inventory appropriate probability depending on the distribution. Thus this problem can be modelled using Markov chain. First we model it into a sequential decision model defining appropriate state space, actions, transition probability and rewards at each time epoch.  If we solve this problem using one of the techniques mentioned previously, the policy that the decision maker has to follow to optimize the expected reward only  is of the type (s,S). This means that whenever the inventory level goes below the level s will order so as to increase are inventory level to S, if not than we will not order. In [], Herbert Scarf has shown that when holding cost and shortage cost are linear then the optimal policy in each period is always of this type. The aim in my work is to find optimal policies for a risk averse decision maker. [] has given LP model for risk sensitive MDPS which can be applied for this example. \\
+In some situations we may also want to control the fluctuations around the expected value, which calls for Risk Sensitive MDPs (RSMDPs). RSMDPs can have varied applications in diverse fields. From investment of funds to manufacturing processes one can use RSMDPs to find optimal decisions. RSMDPs basically mean giving varied importance to higher moments of the total expected cost. One can also just optimize a function of mean and variance only as in \citep{mannor2011mean}.  The literature on RSMDPs is relatively limited though. In \cite{howard1972risk}, Howard and Matheson have considered the maximisation of total reward with a constant risk sensitive parameter. They have discussed the application of iterative algorithms like Value Iteration and Policy Iteration to risk sensitive case. Recently in [\citep{kumar2015finite}] ,authors have proposed an LP based approach to solve the RSMDPs for finite horizon problem. Also they have augmented the state space appropriately so as to make addition of more constrains simple to solve the constrained RSMDP. The relation between LPs and infinite horizon is even more complex and needs to be investigated.\\ 
 
-In [section 3] I have defined the model and the notations. The rewards pertaining to the linear MDP have been identified. There were two ways in which we could modelled the rewards for this problem. One way was that given the current state of the inventory and the action we can find the average reward at that point. Other was to shift the holding and shortage cost from the current period to the next period. Both the cases were solved using LP formulation given in [] and also by dynamic program and the results were validated. Furthermore in section 5 i present the model for risk sensitive MDPs.
+
+\noindent MDPs can be applied to varied examples in real life situations. One such application is the classic inventory control problem. In INVENTORY CONTROL problem the decision maker must decide how much to order in each time period to meet demand for its products. The demand  is considered to be stochastic, whose distribution function is known. The objective here is to find a policy of ordering at any time epoch so as to minimize the total cost incurred for total period of time $T$ thus making it a finite horizon problem. The various cost incurred depends on the current state of inventory, amount ordered and demand in that time period. There are three basic costs considered in this situation. Ordering cost that includes total  ordering cost of the quantity and also fixed order set-up cost. Holding cost for storing inventory and carrying it into the next period. Shortage cost is applicable when we cannot fulfil the demand on hand. All the costs are considered to be linear. Hence given the state and the amount to be ordered in the current period the next inventory level will only depend on the demand in the current state and will transition according to the demand distribution.  First we model it into a sequential decision model defining appropriate state space, actions, transition probability and rewards at each time epoch.  If we solve this problem using one of the techniques mentioned previously, the policy that the decision maker has to follow to optimize the expected reward only  is of the type (s,S).In \cite{scarf1959optimality}, Herbert Scarf has shown that when holding cost and shortage cost are linear then the optimal policy is of this type. This means that whenever the inventory level goes below the level s will order so as to increase are inventory level to S, if not than we will not order.  The aim in my work is to find optimal policies for a risk averse decision maker. Authors in \citep{kumar2015finite} has given LP model for risk sensitive MDPS which can be applied for this example. \\
+
+In Chapter III the model for inventory control is defined with the used notations. The rewards pertaining to the linear MDP have been identified. There were two ways in which we could model the rewards for this problem. One way was that given the current state of the inventory and the action we can find the average reward at that point. Other was to shift the holding and shortage cost from the current period to the next period. Both the cases were solved using LP formulation given in \citep{kumar2015finite} for optimising the linear expected cost and also by using dynamic program from \citep{puterman1990market} and the results were validated. Furthermore in Chapter V the model for risk sensitive MDPs is presented.
 
 \chapter{Literature Survey}
 
 
-\noindent Classical MDPs deal with the maximisation of cumulative reward, however a decision maker may focus on several other distributional properties. Most decision makers maker may be risk averse i.e. they would like to reduce their risk and thus this forms the basis of a risk sensitive model. 
+\noindent Classical MDPs deal with the maximisation of cumulative reward, however a decision maker may focus on several other distributional properties. Most decision makers may be risk averse i.e. they would like to reduce their risk and thus this forms the basis of a risk sensitive model. 
 One way is to focus on mean and variance of the cumulative reward. Mean-variance optimisation has varied applications from finance to manufacturing fields.\\
 
-In [], authors deal with various computational complexities of mean-variance optimisation. They show that these mDP are typically NP hard, but can admit pseudopolynomial algorithms.  The main problem with mean-variance optimisation is the absence of principle of optimality which could have led to simple recursive algorithms. This may give rise to situations where a decision maker can receive unexpected high rewards in the initial stages and may incur loss in the later stages to keep the variance small.  Also variance $ (Var(W))=E(W^2)- (E(W))^2$ is not a linear measure of the probability measure of the process. This is addressed using constrained Markov Decision Process to develop pseudo polynomial exact or approximate algorithms. They have defined their MDP model and compared different types of policies classes. The question they are addressing is that given a MDP M and rational numbers $\lambda$, $\nu$ does there exist a policy in the set $\prod$ such that $E(W)\geq \lambda$ and $Var(W)\leq \nu$. They  and established NP-hardness of this problem for all type of policies. Considering bounded integer rewards, they have identified cases for the existence of exact pseudo polynomial time algorithms. LP approach cannot be used directly used for the problem due to convexity issues in Mean Variance MDPs. Hence they augment the state space to exploit convexity to devise a pseudopolynomial algorithm.  Approximate algorithms are also given where they approximate mean and variance. On similar lines as previously they consider integer rewards the authors have proved existence of a polynomial time algorithm. For any general reward case we can discretize the rewards and obtain new MDP which will be equivalent to one with integer rewards and the same algorithm can be applied.\\
+\section{Mean Variance Optimization}
+In \cite{mannor2011mean}, authors consider mean variance optimization, that is they consider optimizing 
+\begin{equation}
+E[\sum_t R_t] - \theta Var(\sum_t R_t) ^{**}
+\end{equation}
+With the introduction of variance in the cost function, we can optimize the fluctuations around the mean. They also deal with various computational complexities of mean-variance optimisation. There many problems associated with Mean-Variance MDPs.
+\begin{enumerate}
+\item The main problem with mean-variance optimisation is the absence of principle of optimality which could have led to simple recursive algorithms. For example consider a situation where the decision maker has received unexpected high rewards in the initial stages and has got to a state. He than may incur losses to keep the variance small. In case the user is at the same state and at the same stage, however received low rewards before this stage, then it would receive higher rewards in the later stages. Thus the principle of optimality fails. 
+\item Also variance $ (Var(W))=E(W^2)- (E(W))^2$ is not a linear function of the probability measure of the process where $W$ is sum of the rewards for the time horizon.
+\item These MDPs are typically NP hard but may admit a pseudo polynomial time solution.
+\end{enumerate} 
+They have defined their MDP model and compared different types of policies classes. Given the MDP model $M$ (defined by the time horizon, state space, set of actions, set of rewards, transition probability) and rational numbers $\lambda$, $\nu$ the question they are addressing is whether there exist a policy in the set  ${\prod}$ such that $J=E(W)\geq \lambda$ and $V=Var(W)\leq \nu$. They  and established NP-hardness of this problem for all type of policies. They have addressed this using constrained Markov Decision Process to develop pseudo polynomial exact or approximate algorithms.
+To develop exact algorithms they augment the state space , to include the a term that contains the sum reward until the given stage. Considering bounded integer rewards, they have identified cases for the existence of exact pseudo polynomial time algorithms.  LP approach cannot be used directly used for the problem due to convexity issues in Mean Variance MDPs. Hence they have concentrated on the pair $J$ and $Q = E[W^2]$ and for integer rewards established the existence of pseudo polynomial solution.
+In developing approximate algorithms the authors precisely consider the following:
+\begin{itemize}
+\item Minimize V while J $\geq \lambda$
+\item Maximize J while V $\leq \nu$
+\end{itemize}
+On similar lines as previously they consider integer rewards the authors have proved existence of a polynomial time algorithm. For any general reward case we can discretize the rewards and obtain new MDP which will be equivalent to one with integer rewards and the same algorithm can be applied.\\
 
-In [], authors apply risk sensitive approach to design plans for total productive maintenance (TPM). TPM  focuses on improving the overall effectiveness of a manufacturing facility by eliminating the waste of time and resources. Their aim was to find optimal productive maintenance (PM) time. PM help reduce the frequency of unexpected repairs when failure rate is of increasing nature. Traditional approaches in TPM only used expected value of the long run cost and overlooked the risk associated with the high cost. In actual practice risk sensitive managers would use the expected value of long-run cost and then use a factor of safety for the same optimal time. This is a heuristic approach and is more conservative. They give mean variance model where the objective function is $g(\tau)= \mu_C+ \theta {\sigma}^2$ with $\theta>0$, where $\mu_C$ and $\sigma^2$ denote the long-run mean and the long-run variance, respectively, of the net cost per unit time incurred from following a preventive maintenance plan that prescribes $\tau$ as the time for PM.An alternative formulation in terms of rewards, in which the objective function is maximized,is $g(\tau)= \mu_R- \theta {\sigma}^2$ with $\theta>0$, where $\mu_R$ and $\sigma^2$ denote the long-run mean and variance of the net reward per unit time, respectively. Risk neutral models have $\theta =0$. Typically $/theta$ is selected experimentally.TPM plans for the production line in its entirety tend to be
-distinct from those for individual units that operate independently of the line. Hence they have developed separate models for the individual-unit scenario and the production-line scenario. For the case of the individual unit, a renewal-theory model is used. Here every failure or a maintenance triggers a so-called renewal event. Using Renewal Reward Theory he has derived an expression for $g(\tau)$ in terms of $\tau$, failure distribution and the individual cost of repair and maintenance. For the case of the production line a more involved model based on MDPs is used. He first develops the MDP identifies a Quadratic Program given in [] to solve the MDP. But solving the QP this is computationally expensive. He present an approach based on linearising the quadratic objective function by using a surrogate form for variance. Optimization could then be performed via linear programming. The existence of a deterministic policy is then proved for the surrogate objective function using DP approach to solve the problem by deriving the necessary optimality conditions. Using this he proposes a PI algorithm and shows its convergence. Computational results showed that the surrogate function did mimic the exact function reasonably well and also proves convergence in relatively short period of time.\\
+In \citep{filar1989variance}, Filar et al has given a Quadratic Program (QP) to directly solve Mean-Variance MDP ($_{**}$). The constraints of the QP are similar to the usual LP constraints, but the objective is quadratic in nature \cite[equations(2.9)]{filar1989variance}. This is convex constrained QP.
+In \cite{gosavi2006risk},the author again considers the Mean-Variance problem($_**$) to design plans for total productive maintenance (TPM). TPM  focuses on improving the overall effectiveness of a manufacturing facility by eliminating the waste of time and resources. Their aim was to find optimal productive maintenance (PM) time. PM help reduce the frequency of unexpected repairs when failure rate is of increasing nature. Traditional approaches in TPM only used expected value of the long run cost and overlooked the risk associated with the high cost. In actual practice risk sensitive managers would use the expected value of long-run cost and then use a factor of safety for the same optimal time. This is a heuristic approach and is more conservative. They give mean variance model where the objective function is $g(\tau)= \mu_C+ \theta {\sigma}^2$ with $\theta>0$, where $\mu_C$ and $\sigma^2$ denote the long-run mean and the long-run variance, respectively, of the net cost per unit time incurred from following a preventive maintenance plan that prescribes $\tau$ as the time for PM.An alternative formulation in terms of rewards, in which the objective function is maximized,is $g(\tau)= \mu_R- \theta {\sigma}^2$ with $\theta>0$, where $\mu_R$ and $\sigma^2$ denote the long-run mean and variance of the net reward per unit time, respectively. Risk neutral models have $\theta =0$. Typically $\theta$ is selected experimentally. TPM plans for the production line in its entirety tend to be distinct from those for individual units that operate independently of the line. Hence they have developed separate models for the individual-unit scenario and the production-line scenario. For the case of the individual unit, a renewal-theory model is used. He considers a sub-optimal problem by considering the optimal among the age replacement policies. A typical age replacement policy replaces the item when its age reaches $\tau$ or when the failure occurs. Therefore the MDP crumble downs to a single variable optimization problem. Here every failure or a maintenance triggers a so-called renewal event. Using Renewal Reward Theory he has derived an expression for $g(\tau)$ in terms of $\tau$, failure distribution and the individual cost of repair and maintenance. For the case of the production line a more involved model based on MDPs is used. He first develops the MDP identifies a Quadratic Program given in [] to solve the MDP. But solving the QP this is computationally expensive. He present an approach based on linearising the quadratic objective function by using a surrogate form for variance. Optimization could then be performed via linear programming. The existence of a deterministic policy is then proved for the surrogate objective function using DP approach to solve the problem by deriving the necessary optimality conditions. Using this he proposes a PI algorithm and shows its convergence. Computational results showed that the surrogate function did mimic the exact function reasonably well and also proves convergence in relatively short period of time.\\
 
-In [], authors talk about risk sensitive planning with one switch utility functions. One switch utility functions model a decision maker whose decision change with their wealth level. For example a decision maker with low wealth levels may be risk averse, but may become risk neutral as the wealth level increases. These function model the risk attitude of decision maker.A decision maker is risk-neutral if their utility function is linear, risk-averse if their utility function is concave, and risk-seeking if their utility function is convex. Here one need to maximise the expected utility of a MDP for a given one switch utility function. This is difficult since the resulting planning problem is not decomposable. They model a probabilistic planning problem as a fully observable Goal-Directed Markov Decision Problems (GDMDPs) and investigate how to maximize the expected utility. The optimal course of action now depends not only on the current state of the GDMDP but also the wealth level. Thus the authors first gives an approach to transform the risk sensitive GDMDP (RS-GDMDP) into a risk neutral one by augmenting the state space of the RS-GDMDP with possible wealth levels. The authors than relate the values and policies of the original and augmented GDMDP.  The resulting RS-GDMDP has an infinite state space but its properties allow us to generalize the standard risk sensitive version of Value Iteration (VI) which manipulates to a risk sensitive version of VI, which manipulates the functions that map wealth level to values.\\
+\section{Variants of Risk Sensitive MDPs}
+Mean Variance MDP reduces the variance trying to optimize the mean cost. However several other authors have considered many alternative ways of optimizing the fluctuations around the mean.
+In \cite{liu2005risk}, authors talk about risk sensitive planning with one switch utility functions. One switch utility functions model a decision maker whose decision change with their wealth level. For example a decision maker with low wealth levels may be risk averse, but may become risk neutral as the wealth level increases. These function model the risk attitude of decision maker.A decision maker is risk-neutral if their utility function is linear, risk-averse if their utility function is concave, and risk-seeking if their utility function is convex. Here one need to maximise the expected utility of a MDP for a given one switch utility function. This is difficult since the resulting planning problem is not decomposable. They model a probabilistic planning problem as a fully observable Goal-Directed Markov Decision Problems (GDMDPs) and investigate how to maximize the expected utility. The optimal course of action now depends not only on the current state of the GDMDP but also the wealth level. Thus the authors first gives an approach to transform the risk sensitive GDMDP (RS-GDMDP) into a risk neutral one by augmenting the state space of the RS-GDMDP with possible wealth levels. The authors than relate the values and policies of the original and augmented GDMDP.  The resulting RS-GDMDP has an infinite state space but its properties allow us to generalize the standard risk sensitive version of Value Iteration (VI) which manipulates to a risk sensitive version of VI, which manipulates the functions that map wealth level to values.\\
 
-In [], the authors give varying importance to sample path trajectories and the expected value, as controlled by a parameter $\gamma$. Depending upon $\gamma$, called the risk parameter, it provides importance to higher moments of the sum cost. The aggregation function in this case equals the exponential of the sum of the running costs, $E[e^{-\gamma {\sum_{t\leq T}R_t}} ]$. Note that $E[e^{-\gamma {\sum_{t\leq T}R_t}} ]= E\frac{\sum_k ?^k {\sum_{t\leq T}{R_t}}^{k}}{k!}]$. While the linear MDPs control the ?rst moment (expected value) of the sum cost, the risk sensitive MDPs also control the variability/fluctuations around the expected value, by considering the higher moments. The linear MDPs are also viewed as risk neutral MDPs with $\gamma=0$. In this paper the authors provide connection between DP equations and two appropriate LPs for ?nite horizon case. The primal LP provides the value function while the dual LP provides the optimal policy. For LP?s in risk sensitive MDPs the authors have circumvented this problem by incorporating the multiplicative cost term into the mapping that converts any given Markov policy to a feasible point of the LP. This due to the fact that it is possible to construct the linear objective function of the relevant LP using the running costs of all time slots but the cost accumulates in a multiplicative manner for risk sensitive MDPs and hence the same approach cannot be adapted directly for constructing an LP for risk MDP. The authors also have discussed how to add more constraints to the LP by augmenting the state space with an extra component, which is representative of this multiplicative cost. They have also discussed two applications of the problem. First application includes delay tolerant networks where a message has to be transferred from a source to a faraway destination with the help of occasional contacts between the freely moving nodes (that are willing to become the relays) and the source/destination. Second application includes a lossy (finite buffer) queuing system with two server modes and with a constraint on the utilization of fast server mode. They have also compared the risk neutral policies with risk sensitive policies for the constrained MDP problem.\\
+\section{Exponential form of Risk Sensitive MDPs}
+As seen above Mean-Variance MDPs have several issues. However by considering exponential cost, one can also reduce the fluctuations around the mean. Exponential cost cover some of the drawbacks that are present in Mean-Variance MDPs.
+In comparison with linear MDPs which control the first moment (expected value) of the sum cost, the risk sensitive MDPs also control the variability/fluctuations around the expected value, by considering the higher moments. In \cite{kumar2015finite}, the authors model finite horizon risk sensitive constrained MDPs using LP technique.  The aim is to give varying importance to sample path trajectories and the expected value, as controlled by a parameter $\gamma$. Depending upon $\gamma$, called the risk parameter, it provides importance to higher moments of the sum cost. The linear MDPs are viewed as risk neutral MDPs with $\gamma=0$. The aggregation function in this case equals the exponential of the sum of the running costs, $E[e^{-\gamma {\sum_{t\leq T}R_t}} ]$. Note that $E[e^{-\gamma {\sum_{t\leq T}R_t}} ]= E[{\sum_k \gamma ^k {(\sum_{t\leq T}{R_t}})^{k}}/{k!}]$, thus considering the higher moments of the sum cost.
+The authors have considered the following transformation of the risk neutral objective function to capture the higher moments.
+\begin{equation*}
+\tilde{J_o} = (1/\gamma)\log(J_o) \text{     where}\\
+J_o = E[e^{\gamma \sum_t r_t(S_t,A_t)} 
+\end{equation*}
+This the risk sensitive objective function. For smaller values $\gamma$ the objective takes the form:
+\begin{equation}
+\tilde{J_o} \simeq E[ \sum_t r_t(S_t,A_t)] + (\gamma /2)Var[\sum_t r_t(S_t,A_t)] 
+\end{equation} 
+As one can see as $\gamma \rightarrow 0$ the objective function approaches risk neutral cost. 
+In this paper the authors provide connection between DP equations and two appropriate LPs for finite horizon case. The primal LP provides the value function while the dual LP provides the optimal policy. For LPs in risk sensitive MDPs the authors have circumvented this problem by incorporating the multiplicative cost term into the mapping that converts any given Markov policy to a feasible point of the LP. This due to the fact that it is possible to construct the linear objective function of the relevant LP using the running costs of all time slots but the cost accumulates in a multiplicative manner for risk sensitive MDPs and hence the same approach cannot be adapted directly for constructing an LP for risk MDP. Primal and dual LPs for finite horizon RSMDP are efficiently designed.  By substituting $\gamma=0$ in the Primal and Dual LP we get back to a risk neutral MDP which will maximise the expected cost. However there is inconsistency between those LP and they do not point to same optimal policies. They have identified this disparity between the LPs and have corrected the inconsistency. However when we need to add extra constraints to this model, the fact that costs are multiplicative poses a problem. The authors have proposed a technique to add more constraints to the LP by augmenting the state space with an extra component, which is representative of this multiplicative cost. The addition of this extra component makes it easy to add new constraints .They have also discussed two applications of the problem. First application includes delay tolerant networks where a message has to be transferred from a source to a faraway destination with the help of occasional contacts between the freely moving nodes (that are willing to become the relays) and the source/destination. Second application includes a lossy (finite buffer) queuing system with two server modes and with a constraint on the utilization of fast server mode. They have also compared the risk neutral policies with risk sensitive policies for the constrained MDP problem.\\
 
-In [], Herbert Scarf considers a dynamic inventory problem where he considers ordering costs, holding costs and shortage costs. The underlying assumption here is that the holding and shortage cost are linear. He shows that when this is true the optimal policy in each period is always of the type (S,s). This means that whenever the inventory level goes below level s will order so as to increase are inventory level to S, if not than we will not order. He builds a total cost function, composed of the three costs described above. This function can be used to construct a dynamic program equation. He shoes the total cost function follows K-convexity. Due to this the optimal policy the optimal policy turns out to be of such simple form.\\
+\section{Inventory Control}
+In \cite{scarf1959optimality}, Herbert Scarf considers a dynamic inventory problem where he considers ordering costs, holding costs and shortage costs. The underlying assumption here is that the holding and shortage cost are linear. He shows that when this is true the optimal policy in each period is always of the type (S,s). This means that whenever the inventory level goes below level s will order so as to increase are inventory level to S, if not than we will not order. He builds a total cost function, composed of the three costs described above. This function can be used to construct a dynamic program equation. He shoes the total cost function follows K-convexity. Due to this the optimal policy the optimal policy turns out to be of such simple form.\\
 
 \chapter{Problem Description}
-Consider an Inventory system that can be stocked to a maximum size of M. Let N be the number of planning horizons. A sequence of ordering decisions is made at the beginning of number of equally spaced intervals. The inventory builds upon ordering stock and depletes on fulfilling demand. Following assumptions apply to the model 
+Consider an Inventory system that can be stocked to a maximum size of $M$. Let $N$ be the number of planning horizons. A sequence of ordering decisions is made at the beginning of number of equally spaced intervals. The inventory builds upon ordering stock and depletes on fulfilling demand. Following assumptions apply to the model 
 \begin{enumerate}
 \item[\textbf{1)}] Demand $\xi$ are independent and identically distributed by a common distribution function f($\xi$).
 \item[\textbf{2)}] All orders are placed at the start of the period and received immediately and lag is zero.
@@ -122,13 +161,13 @@ Consider an Inventory system that can be stocked to a maximum size of M. Let N b
 \end{enumerate}
 \noindent Now we define the different costs associated with the inventory process.\\
 \begin{enumerate}
-\item[\textbf{1)}] Order cost $(C_o)$ : This contains two components:
+\item[\textbf{1)}] Order cost $(C_O)$ : This contains two components:
 \begin{enumerate}
-\item[\textbf{a)}] Fixed order cost (K) ? This the fixed cost for an order irrespective of the number of units you order.
+\item[\textbf{a)}] Fixed order cost (K) : This the fixed cost for an order irrespective of the number of units you order.
 \item[\textbf{b)}] Variable cost : This is a linear cost cost directly proportional to number of units you order.\\
 \end{enumerate}
 \begin{equation*}
-C_o = 
+C_O(a) = 
 \begin{cases}
 0   \hspace{2.12cm}          ,a&=0\\
 K+ c_u {a}     \hspace{1cm}           ,a&>0
@@ -140,7 +179,7 @@ K+ c_u {a}     \hspace{1cm}           ,a&>0
 \item[\textbf{2)}]Holding cost $(C_H)$ : Cost associated with storing the inventory that remain unsold. This cost will depend on the demand.
 
 \begin{equation*}
-C_H = 
+C_H(s,a) = 
 \begin{cases}
 0   &,\xi \geq s+a\\
 c_H(s+a-\xi)     & ,\xi <s+a
@@ -152,7 +191,7 @@ c_H(s+a-\xi)     & ,\xi <s+a
 \item[\textbf{3)}]	Shortage cost$(C_S)$ : Cost associate with not being able to fulfil demand from the stock. 
 
 \begin{equation*}
-C_S = 
+C_S(s,a) = 
 \begin{cases}
 0          &,\xi \leq s+a\\
 C_S(\xi-s-a)     &  ,\xi >s+a
@@ -172,10 +211,10 @@ A Markov decision process formulation follows below:\\
 \begin{equation*}A_s  = \lbrace0,1,2,...M-s \rbrace
 \end{equation*}\\
 \noindent Expected Rewards:\\
-\begin{equation*}r_t(s,a) = (c_o+c_H+c_s) 
-\end{equation*}
-
-
+\begin{equation*}r_t(s,a) = (C_O(a) + C_H(s,a) + C_S(s,a)) 
+\end{equation*}\\
+\noindent Terminal reward $r_T(s)=0$.
+\noindent \\Transition Probability:\\
 \begin{equation*}
 p(j|s,a)=
 \begin{cases}
@@ -185,4 +224,78 @@ f(\xi\geq s+a)&,j=0\\
 \end{cases}
 \end{equation*}
 
+Now we want to minimize the expected value of the sum of all running costs, that is $E[\sum_t r_t(s,a) ]$.
+
+This equivalent to optimizing\\ $\sum_t E[r_t(s,a)] = \sum E \bigg[ E\Big[{R_t}|{(X_1,A_1),(X_2,A_2),...,(X_{T-1},A_{T-1}),(X_T)}\Big]\bigg] $.\\
+\noindent First we find what is the cost incurred given the state and action in time period t.
+\begin{align*}
+\nonumber
+E[r_t(s,a)|{(S_t=s,A_t=a)}] &=  E[C_O(a) + C_H(s,a) + C_S(s,a)]\\
+\hspace{1.7cm} &= \big [ E[K+ c_u {a} ]+ E[c_h(s+a-\xi) ] +  E[c_h(\xi-s-a) ]\big]
+\end{align*}
+This quantity is easy to compute, given $s$, $a$ and the distribution of demand $\xi$.
+Hence now we can compute $E[r_t(s,a)]$ by simply multiplying the the probability $P( S_t=s, A_t=a)$
+
+In \citep{kumar2015finite}, authors have given a LP to solve finite horizon linear program as below:\\
+\begin{align*}
+\nonumber
+min\hspace{0.5cm} \sum_{t=1}^{T-1} \sum_{a_t} \sum_{s_t} r_t(s_t,a_t)y(t,s_t,a_t) + \sum_{a} \sum_{s,s'}r_T(s')y(T-1,s,a)p(s'|s,a)
+\end{align*}
+\begin{flushleft}
+\text{subject to:}
+\end{flushleft}
+\begin{align*}
+&\sum_a y(0,s',a)=\alpha(s')     &\text{for all } s'\in S \\
+&\sum_a y(t,s',a)= \sum_a \sum_s p(s'|s,a)y(t-1,s,a)    &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S   \\  
+\end{align*}
+
+
+Using the Above LP model the inventory problem was and and results are given in chapter 5. The Above MDP model is  applicable for any discrete distribution of demand. But if the demand was to be continuous than we would need to change the MDP model as state space becomes infinite in that case and we need to come up with n idea to discretize the demand. 
+There is another way which can be used to represent the rewards in this MDP model. Now in Inventory control we know that if the next inventory level $s$ is greater than zero than we would directly incur holding cost equivalent to $c_hs$. Hence rather than considering this cost in the same period, we can shift it to the next period where we know the state. If $s=0$ than we for sure know that there was no holding cost and only shortage cost would apply. Considering this we can use the following.\\
+\begin{equation*}
+r_t(s,a)=
+\begin{cases}
+c_{o}a_t&,t=1\\
+c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_{\lbrace s_t=0\rbrace}&,1<t\leq T\\
+c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})&,t=T
+\end{cases}
+\end{equation*}
+\noindent where $\tilde{\xi}$ is the excess variable demand and distribution of whose is to be known to compute the reward.
+Hence with these new rewards, we can again solve the LP to get the optimal policy.
+
+\noindent Section risk sensitive case\\
+In risk sensitive MDPs our objective is to optimize $E[e^{\sum_{t=1}^T \gamma r_t}]$
+\begin{align*}
+E[e^{\sum_{t=1}^T \gamma r_t}]&=E[\Pi_{t=1}^Te^{ \gamma r_t}]\\
+&=E \bigg{[}E\Big[\Pi_{t=1}^{T}e^{\gamma R_t}|{(X_1,A_1),(X_2,A_2),...,(X_{T-1},A_{T-1}),(X_T)}\Big]\bigg]
+\end{align*}
+\\ As compared to linear cost MDPs we cannot simplify this easily. Hence using we need to use the technique where we consider excess demand to model the rewards.
+
+\begin{equation*}
+e^{\gamma r_t(s_t,a_t)}=
+\begin{cases}
+e^{c_{o}a_t}&,t=1\\
+e^{c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_{\lbrace s_t=0\rbrace}}&,1<t< T\\
+e^{c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_{\lbrace s_t=0\rbrace}}&,t=T
+\end{cases}
+\end{equation*}
+Hence now we can apply directly the risk sensitive LP to solve the MDP model from \citep{kumar2015finite}.
+\begin{align*}
+\nonumber
+min\hspace{0.5cm} \sum_a \sum_{s} b_{(x,a)}y(T-1,s,a) 
+\end{align*}
+\begin{flushleft}
+\text{subject to:}
+\end{flushleft}
+\begin{align*}
+& \sum_a y(0,s',a)=\alpha(s')     &\text{for all } s'\in S \\
+& \sum_a y(t,s',a)= \sum_a \sum_s e^{\gamma r_{t-1}(s,a)}p(s'|s,a)y(t-1,s,a)    &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S   \\
+\text{with} b_{(x,a)}:= e^{\gamma r_{T-1}(s,a)}\sum_{s'} p(s'|s,a)e^{r_T(s')} \\
+\end{align*}
+$\frac{P(z<\xi\leq q+z)}{P(\xi >z)}$
+
+\begin{myequation}\mathbb{1}^c\end{myequation}
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{R}
 \end{document}

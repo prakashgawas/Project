@@ -29,16 +29,11 @@ for s=1:length(S)
         TSC=0;
         if(S(s)+A(a)<=M)
             TOC=oc*A(a)+foc*(A(a)>0);
-            while(z<=100)
-                if(z<S(s)+A(a))
-                    THC=THC+ hc*(S(s)+A(a)-z)*geopdf(z,pr);
-                else
-                    TSC=TSC+sc*(z-S(s)-A(a))*geopdf(z,pr);
-                end
-            
+            while(z<S(s)+A(a))
+                THC=THC+ hc*(S(s)+A(a)-z)*geopdf(z,pr);
                 z=z+1;
-        
             end
+            TSC=sc*((1-pr)^(S(s)+A(a)+1))/pr;
         end
         
         r(s,a)=TOC +THC+TSC;
