@@ -94,8 +94,8 @@ for t=length(T)-1:-1:1
     u_t(:,t)=u_s;
 end
 decision1=decision1-1;
-decision=zeros(M+2,Time);
+decision=zeros(M+2,Time+2);
 decision(2:M+2,1)=S';
-decision(1,2:Time)=1:Time-1;
+decision(1,2:Time+2)=0:Time;
 decision(2:M+2,2:Time+1)=decision1;
 disp(decision);

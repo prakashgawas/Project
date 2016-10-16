@@ -1,8 +1,17 @@
 \contentsline {chapter}{\numberline {1}Preamble}{7}
 \contentsline {section}{\numberline {1.1}Introduction}{7}
-\contentsline {chapter}{\numberline {2}Literature Survey}{10}
-\contentsline {section}{\numberline {2.1}Mean Variance Optimization}{10}
-\contentsline {section}{\numberline {2.2}Variants of Risk Sensitive MDPs}{12}
-\contentsline {section}{\numberline {2.3}Exponential form of Risk Sensitive MDPs}{12}
-\contentsline {section}{\numberline {2.4}Inventory Control}{13}
-\contentsline {chapter}{\numberline {3}Problem Description}{14}
+\contentsline {chapter}{\numberline {2}Literature Survey}{9}
+\contentsline {section}{\numberline {2.1}Mean Variance Optimization}{9}
+\contentsline {section}{\numberline {2.2}Variants of Risk Sensitive MDPs}{10}
+\contentsline {section}{\numberline {2.3}Exponential form of Risk Sensitive MDPs}{11}
+\contentsline {section}{\numberline {2.4}Inventory Control}{12}
+\contentsline {chapter}{\numberline {3}Inventory Control - Linear And Risk Sensitive MDP Framework}{13}
+\contentsline {section}{\numberline {3.1}Inventory Control}{13}
+\contentsline {section}{\numberline {3.2}Model}{13}
+\contentsline {section}{\numberline {3.3}Linear Cost - Standard MDP Model}{15}
+\contentsline {subsection}{\numberline {3.3.1}MDP with cost considered in the same period}{15}
+\contentsline {subsection}{\numberline {3.3.2}MDP after shiting the cost terms}{16}
+\contentsline {section}{\numberline {3.4}Risk Sensitive MDP}{17}
+\contentsline {chapter}{\numberline {4}Results}{19}
+\contentsline {section}{\numberline {4.1}Risk Neutral MDP}{19}
+\contentsline {subsection}{\numberline {4.1.1}Average Cost Model}{19}

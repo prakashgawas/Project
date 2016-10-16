@@ -1,9 +1,9 @@
-\documentclass[12pt,a4paper,oneside]{report}
+\documentclass[11pt,a4paper,oneside]{report}
 %\usepackage[utf8]{inputenc}
 \usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
 \usepackage{listing}
 \usepackage{enumerate}
-\usepackage{amsmath}
+\usepackage[fleqn]{amsmath}%mathtools includes this so this is optional
 \usepackage{natbib}
 \usepackage{amssymb, amsthm}
 \usepackage{float}
@@ -14,18 +14,14 @@
 \graphicspath{{image/}}
 \usepackage{times}
 \usepackage{nomencl}
+\usepackage{amsmath}
 \usepackage{appendix}
 \usepackage{setspace}
 \usepackage{color}
 \usepackage{fancybox}
 \usepackage{lipsum}
- \usepackage{relsize}
-\usepackage{environ}
-\NewEnviron{myequation}{
-    \begin{equation}
-    \scalebox{1.5}{$\BODY$}
-    \end{equation}
-    }		
+\usepackage{relsize}
+\usepackage{environ}	
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead{}
@@ -137,8 +133,8 @@ As seen above Mean-Variance MDPs have several issues. However by considering exp
 In comparison with linear MDPs which control the first moment (expected value) of the sum cost, the risk sensitive MDPs also control the variability/fluctuations around the expected value, by considering the higher moments. In \cite{kumar2015finite}, the authors model finite horizon risk sensitive constrained MDPs using LP technique.  The aim is to give varying importance to sample path trajectories and the expected value, as controlled by a parameter $\gamma$. Depending upon $\gamma$, called the risk parameter, it provides importance to higher moments of the sum cost. The linear MDPs are viewed as risk neutral MDPs with $\gamma=0$. The aggregation function in this case equals the exponential of the sum of the running costs, $E[e^{-\gamma {\sum_{t\leq T}R_t}} ]$. Note that $E[e^{-\gamma {\sum_{t\leq T}R_t}} ]= E[{\sum_k \gamma ^k {(\sum_{t\leq T}{R_t}})^{k}}/{k!}]$, thus considering the higher moments of the sum cost.
 The authors have considered the following transformation of the risk neutral objective function to capture the higher moments.
 \begin{equation*}
-\tilde{J_o} = (1/\gamma)\log(J_o) \text{     where}\\
-J_o = E[e^{\gamma \sum_t r_t(S_t,A_t)} 
+\tilde{J_o} = (1/\gamma)\log(J_o) \text{     where  }\\
+J_o = E[e^{\gamma \sum_t r_t(S_t,A_t)]} 
 \end{equation*}
 This the risk sensitive objective function. For smaller values $\gamma$ the objective takes the form:
 \begin{equation}
@@ -150,59 +146,76 @@ In this paper the authors provide connection between DP equations and two approp
 \section{Inventory Control}
 In \cite{scarf1959optimality}, Herbert Scarf considers a dynamic inventory problem where he considers ordering costs, holding costs and shortage costs. The underlying assumption here is that the holding and shortage cost are linear. He shows that when this is true the optimal policy in each period is always of the type (S,s). This means that whenever the inventory level goes below level s will order so as to increase are inventory level to S, if not than we will not order. He builds a total cost function, composed of the three costs described above. This function can be used to construct a dynamic program equation. He shoes the total cost function follows K-convexity. Due to this the optimal policy the optimal policy turns out to be of such simple form.\\
 
-\chapter{Problem Description}
-Consider an Inventory system that can be stocked to a maximum size of $M$. Let $N$ be the number of planning horizons. A sequence of ordering decisions is made at the beginning of number of equally spaced intervals. The inventory builds upon ordering stock and depletes on fulfilling demand. Following assumptions apply to the model 
+\chapter{Inventory Control - Linear And Risk Sensitive MDP Framework}
+\section{Inventory Control}
+Inventory refers to idle goods or materials that are held by an firm for use sometime in the future. Items stored in inventory can vary from raw materials, purchased parts, finished goods etc. One reason firms maintain inventory is that it is rarely possible to predict sales levels, production times, demand, and usage needs exactly. Thus, inventory serves as a buffer against uncertain and fluctuating usage and keeps a supply of items available in case the items are needed by the firm or its customers. While inventory serves an important and essential role, the expense associated with financing and maintaining inventories is a substantial part of the cost of doing business. In large organizations, the cost associated with inventory can run into the millions of dollars.
+Two important questions that must be answered in order to effectively manage inventories are as follows:
 \begin{enumerate}
-\item[\textbf{1)}] Demand $\xi$ are independent and identically distributed by a common distribution function f($\xi$).
+\item When should the inventory be replenished? 
+\item How much should be ordered when the inventory is replenished?
+\end{enumerate}
+
+Sequential decision models have been widely applied to inventory control problems and are one its earliest applications. These models can be applied not only to find reorder points of single product, but also to complex multi product supply network. In this work, I consider a single product Inventory control system and try to find optimal reorder points. Under various scenarios it is proved that $\mathcal{(S,s)}$ policy is optimal (e.g., \citep{scarf1959optimality}) when one considers optimizing the expected value of the costs in Inventory control. As a first part of my work, using numerical methods i.e dynamic programming and LPs I proved the optimality of $\mathcal{(S,s)}$ in one example scenario.I have also considered risk sensitive cost (expected value of exponent of total costs) and studied the differences in the two optimal policies.
+
+\section{Model}
+Consider an Inventory storage that can be stocked with goods to a maximum size of $M$. Results proving optimality of (S,s) policy (e.g., \citep{scarf1959optimality}) often do not consider a limit on inventory size, however due to limitation of numerical computations we assume $M$ as the maximum inventory size possible.  This is also a realistic scenario. Let $N$ be the number of planning horizons. A sequence of ordering decisions is made at the beginning of number of equally spaced intervals. The inventory builds upon ordering stock and depletes on fulfilling demand. Following assumptions apply to the model 
+\begin{enumerate}
+\item[\textbf{1)}] Demand $\xi_1, \xi_2.....\xi_N$ are independent and identically distributed by a common discrete distribution function $P(\xi)$.
 \item[\textbf{2)}] All orders are placed at the start of the period and received immediately and lag is zero.
-\item[\textbf{3)}] Demands arrive at the start of the period and are fulfilled instantly.
+\item[\textbf{3)}] Demands arrive immediately after the orders arrive and are fulfilled instantly.
 \item[\textbf{4)}] Holding and shortage costs are charged linearly.
 \item[\textbf{5)}] Unsatisfied demand is lost forever.
 \end{enumerate}
-\noindent Now we define the different costs associated with the inventory process.\\
+\noindent Now to define the different costs associated with the inventory process.
 \begin{enumerate}
 \item[\textbf{1)}] Order cost $(C_O)$ : This contains two components:
 \begin{enumerate}
-\item[\textbf{a)}] Fixed order cost (K) : This the fixed cost for an order irrespective of the number of units you order.
-\item[\textbf{b)}] Variable cost : This is a linear cost cost directly proportional to number of units you order.\\
+\item[\textbf{a)}] Fixed order cost (K) : This the fixed cost for an order irrespective of the number of units ordered.
+\item[\textbf{b)}] Variable cost : This is a linear cost cost directly proportional to number of units ordered.Thus the order cost when quantity $a$  is ordered equals:\\
 \end{enumerate}
 \begin{equation*}
 C_O(a) = 
 \begin{cases}
-0   \hspace{2.12cm}          ,a&=0\\
-K+ c_u {a}     \hspace{1cm}           ,a&>0
+0,   \hspace{2.12cm}          a&=0\\
+K+ c_u, {a}     \hspace{1cm}           a&>0
 \end{cases}
 \end{equation*}
 
-\hspace{6mm} Where 'a' is the amount of quantity ordered and $c_u$  is the unit price
+\hspace{6mm} where  $c_u$  is the unit price.
 
-\item[\textbf{2)}]Holding cost $(C_H)$ : Cost associated with storing the inventory that remain unsold. This cost will depend on the demand.
+\item[\textbf{2)}]Holding cost $(C_H)$ : Cost associated with storing the inventory that remains unsold. This cost will depend on the demand.
 
 \begin{equation*}
 C_H(s,a) = 
 \begin{cases}
-0   &,\xi \geq s+a\\
-c_H(s+a-\xi)     & ,\xi <s+a
+0,   &\xi \geq s+a\\
+c_H(s+a-\xi),     & \xi <s+a
 \end{cases}
 \end{equation*}
-\begin{flushleft}Where $c_k$ is the unit holding cost.
+\begin{flushleft}where $c_k$ is the unit holding cost.
 \end{flushleft}
 
-\item[\textbf{3)}]	Shortage cost$(C_S)$ : Cost associate with not being able to fulfil demand from the stock. 
+\item[\textbf{3)}]	Shortage cost$(C_S)$ : Cost associated with not being able to fulfil demand from the stock. 
 
 \begin{equation*}
 C_S(s,a) = 
 \begin{cases}
 0          &,\xi \leq s+a\\
-C_S(\xi-s-a)     &  ,\xi >s+a
+c_S(\xi-s-a)     &  ,\xi >s+a
 \end{cases}
 \end{equation*}
 \begin{flushleft}where $c_s$ is the unit shortage cost.
 \end{flushleft}
 \end{enumerate}
+Hence now the total expected cost to be charged for any period $t$will be:
+\begin{equation}
+= (K+ c_u {a})\mathbf{1}_{\lbrace a>0\rbrace} + \sum_{\xi=0}^{s+a-1}c_H(s+a-\xi)P(\xi) + \sum_{\xi=s+a}^{\infty}c_S(\xi-s-a)P(\xi)
+\end{equation} 
+We now describe a sequential model to determine the optimal reorder points for single product inventory system. Decision epoch will be the review of the inventory level after each interval. The system state is the inventory level at the time of review. In a given state the action correspond to the amount of stock the order is placed for. Note that in our case we maximum order quantity so that are total inventory would not be greater than $M$. Once the order has been placed for a given state, the transition probabilities will depend on the quantity ordered and the random customer demand for the product in the period. After the demand is fulfilled we incur a cost (ordering + shortage + holding) depending on the order, stock on hand and the random demand. A decision rule will provide us the quantity to be ordered, given the state of the inventory at the time of review. Thus we seek a policy that consists of such decision rules to minimize the total cost of the entire planning period. 
 A Markov decision process formulation follows below:\\
+
 \noindent Decision Epochs:\\
-\begin{equation*}T = \lbrace 1,2,3,...N \rbrace,   N \leq \infty. 
+\begin{equation*}T = \lbrace 1,2,3,...N \rbrace,\hspace{1.5cm}   N \leq \infty. 
 \end{equation*}\\
 \noindent State space:\\
 \begin{equation*}S = \lbrace 0,1,2,...M \rbrace  
@@ -210,6 +223,7 @@ A Markov decision process formulation follows below:\\
 \noindent Actions:\\
 \begin{equation*}A_s  = \lbrace0,1,2,...M-s \rbrace
 \end{equation*}\\
+where $s\in S$\\
 \noindent Expected Rewards:\\
 \begin{equation*}r_t(s,a) = (C_O(a) + C_H(s,a) + C_S(s,a)) 
 \end{equation*}\\
@@ -218,25 +232,28 @@ A Markov decision process formulation follows below:\\
 \begin{equation*}
 p(j|s,a)=
 \begin{cases}
-f(\xi\cong s+a-j)&,{s+a}>j\geq0\\
-f(\xi\geq s+a)&,j=0\\
-0&,\text{else}
+P(\xi= s+a-j),&{s+a}>j\geq0\\
+P(\xi\geq s+a),&j=0\\
+0,&\text{else}
 \end{cases}
 \end{equation*}
-
-Now we want to minimize the expected value of the sum of all running costs, that is $E[\sum_t r_t(s,a) ]$.
-
-This equivalent to optimizing\\ $\sum_t E[r_t(s,a)] = \sum E \bigg[ E\Big[{R_t}|{(X_1,A_1),(X_2,A_2),...,(X_{T-1},A_{T-1}),(X_T)}\Big]\bigg] $.\\
-\noindent First we find what is the cost incurred given the state and action in time period t.
+\section{Linear Cost - Standard MDP Model}
+\subsection{MDP with cost considered in the same period}
+Our objective is to minimize the expected value of the sum of all running costs, that is $E[\sum_t r_t(s,a) ]$.
+This equivalent to optimizing:
+\begin{align}
+E[\sum_t r_t(s,a) ]&=\sum_t E[r_t(s,a)] \\
+&= \sum_t E \bigg[ E\Big[{R_t}|{(S_1,A_1),(S_2,A_2),...,(S_{T-1},A_{T-1}),(S_T)}\Big]\bigg].
+\end{align}
+\noindent Hence given the current state $s$ and action to be taken $a$ we can find the cost any period $t$. The  cost $r_t$ for the period $t$ will depend only on the state $s_t$ and the action$a_t$ in that period and can be calculated as follows:
 \begin{align*}
 \nonumber
-E[r_t(s,a)|{(S_t=s,A_t=a)}] &=  E[C_O(a) + C_H(s,a) + C_S(s,a)]\\
-\hspace{1.7cm} &= \big [ E[K+ c_u {a} ]+ E[c_h(s+a-\xi) ] +  E[c_h(\xi-s-a) ]\big]
+E[R_t(s,a)|{(S_t=s,A_t=a)}] &=  E[C_O(a) + C_H(s,a) + C_S(s,a)]\\
 \end{align*}
 This quantity is easy to compute, given $s$, $a$ and the distribution of demand $\xi$.
-Hence now we can compute $E[r_t(s,a)]$ by simply multiplying the the probability $P( S_t=s, A_t=a)$
+Hence now we can compute $E[r_t(s,a)]$ by simply multiplying with the probabilities $\lbrace P( S_t=s, A_t=a)\rbrace$
 
-In \citep{kumar2015finite}, authors have given a LP to solve finite horizon linear program as below:\\
+In \citep{kumar2015finite}, authors have given a Primal and Dual LPs to solve finite horizon linear program. The primal will give us the optimum cost, while the dual gives the optimum policies. The dual LP is given below.\\
 \begin{align*}
 \nonumber
 min\hspace{0.5cm} \sum_{t=1}^{T-1} \sum_{a_t} \sum_{s_t} r_t(s_t,a_t)y(t,s_t,a_t) + \sum_{a} \sum_{s,s'}r_T(s')y(T-1,s,a)p(s'|s,a)
@@ -246,55 +263,81 @@ min\hspace{0.5cm} \sum_{t=1}^{T-1} \sum_{a_t} \sum_{s_t} r_t(s_t,a_t)y(t,s_t,a_t
 \end{flushleft}
 \begin{align*}
 &\sum_a y(0,s',a)=\alpha(s')     &\text{for all } s'\in S \\
-&\sum_a y(t,s',a)= \sum_a \sum_s p(s'|s,a)y(t-1,s,a)    &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S   \\  
+&\sum_a y(t,s',a)= \sum_a \sum_s p(s'|s,a)y(t-1,s,a)    &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S   \\ 
+&\text{and } y(t,s,a)\geq 0 \text{ for } a\in A_s \text{ and } s\in S. 
 \end{align*}
 
 
-Using the Above LP model the inventory problem was and and results are given in chapter 5. The Above MDP model is  applicable for any discrete distribution of demand. But if the demand was to be continuous than we would need to change the MDP model as state space becomes infinite in that case and we need to come up with n idea to discretize the demand. 
-There is another way which can be used to represent the rewards in this MDP model. Now in Inventory control we know that if the next inventory level $s$ is greater than zero than we would directly incur holding cost equivalent to $c_hs$. Hence rather than considering this cost in the same period, we can shift it to the next period where we know the state. If $s=0$ than we for sure know that there was no holding cost and only shortage cost would apply. Considering this we can use the following.\\
+Using the above LP we solve the inventory problem and results are given in chapter 5. The Above MDP model is  applicable for any discrete distribution of demand. But if the demand was to be continuous than we would need to change the MDP model as state space becomes infinite in that case and we need to come up with a idea. Then we would need to discretize the demand to keep the state space finite. 
+\subsection{MDP after shiting the cost terms}
+There is another way which can be used to represent the rewards in this MDP model. We consider  shift of few cost terms (from any time slot to its next), which would not change the actual problem and which would pave way for risk MDP. In formulation given in eq [], the holding and shortage costs depend upon the current inventory, order quantity and demand. In actual it depends only on the next state. It is easily known that if the state $s$ at the start of next period is greater than zero than we would directly incur holding cost equivalent to $c_hs$ in the current period. Therefore we can model the cost $r_t$ as function of the next state of inventory which would give us information on which of the cost is applicable in the previous period. So one can shift the holding and shortage costs to the next period where we would know the state. If $s=0$ than we for sure know that there was no holding cost and only shortage cost would apply.
+Hence in this case we need to model the excess demand, when the state is zero. The reason for modelling the rewards this way is highlighted in the next section where we model Risk Sensitive MDPs. Considering this we can use the following:\\
 \begin{equation*}
-r_t(s,a)=
+r_t(s_t,a_t)=
 \begin{cases}
 c_{o}a_t&,t=1\\
-c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_{\lbrace s_t=0\rbrace}&,1<t\leq T\\
+c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_{\lbrace s_t=0\rbrace}&,1<t< T\\
 c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})&,t=T
 \end{cases}
 \end{equation*}
-\noindent where $\tilde{\xi}$ is the excess variable demand and distribution of whose is to be known to compute the reward.
-Hence with these new rewards, we can again solve the LP to get the optimal policy.
+\noindent where $\tilde{\xi}$ is the excess variable demand and distribution of whose is to be known to compute the reward. This Excess demand $\tilde{\xi}$ depends on the inventory state, the action taken in that state and demand in that period. Note that there exist terminal reward in this case. Hence with these new rewards, we can again solve the LP to get the optimal policy. Section 4.2 provides the results for this way of modelling. 
+Advantages of this formulation:
+\begin{enumerate}
+\item The holding cost does not depend on random demand.
+\item Shortage cost depends only upon excess demand $\tilde\xi$, which would than be independent of further state evolution. Further if the demands are memoryless, than $\tilde{\xi}$ has the same distribution as $\xi$.
+\end{enumerate}
 
-\noindent Section risk sensitive case\\
-In risk sensitive MDPs our objective is to optimize $E[e^{\sum_{t=1}^T \gamma r_t}]$
+\section{Risk Sensitive MDP}
+In risk sensitive MDPs we want to give importance to higher moments of the total rewards. Hence our objective is to optimize $E[e^{\sum_{t=1}^T \gamma r_t}]$
 \begin{align*}
 E[e^{\sum_{t=1}^T \gamma r_t}]&=E[\Pi_{t=1}^Te^{ \gamma r_t}]\\
+&=E \bigg{[}E\Big[\Pi_{t=1}^{T}e^{\gamma R_t}|(X_1,X_2,...X_T)(A_1,A_1,...A_{T-1})\Big]\bigg]
+\end{align*}
+\\ As compared to linear cost MDPs we cannot simplify this easily. If one notices in linear MDPs \ref{3.2}, we can simplify the total in terms of sum of expectations of the costs which is easy to compute as in \ref{3.1} .But this is not the case in Risk sensitive MDPs as seen above and we cannot average out the risk reward for a given state $s$ and the corresponding action $a$.  Hence using we need to use the technique where we shift the rewards to the next time period. We will consider a the transformed risk reward as below:
+$E[e^{\sum_{t=1}^T \gamma r_t}]$
+\begin{align*}
 &=E \bigg{[}E\Big[\Pi_{t=1}^{T}e^{\gamma R_t}|{(X_1,A_1),(X_2,A_2),...,(X_{T-1},A_{T-1}),(X_T)}\Big]\bigg]
 \end{align*}
-\\ As compared to linear cost MDPs we cannot simplify this easily. Hence using we need to use the technique where we consider excess demand to model the rewards.
-
+substitute the shifted reward from equation
+\begin{align*}
+&=E[E[\Pi_{t=1}^{T-1} e^{c_o A_t}\Pi_{t=1}^{T}e^{(c_h S_t)\mathbf{1}_{\lbrace S_t>0\rbrace}+(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}|(X_1,X_2,...X_T)(A_1,A_2,...A_{T-1})]]\\
+&=E[\Pi_{t=1}^{T-1} e^{c_o A_t}\Pi_{t=1}^{T}e^{(c_h S_t)\mathbf{1}_{\lbrace S_t>0\rbrace}}E[\Pi_{t=1}^{T-1}e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}|(X_1,X_2,...X_T)(A_1,A_2,...A_{T-1})]]
+\end{align*}
+In the above rewards the shortage cost depends on the random quantity $\tilde\xi$ (excess demand). The distribution of excess demand $\tilde\xi$ in general depends upon the inventory state and action of previous slot, however will not influence further evolution of the system.  We can assume memory less demands (geometric), in which case $\tilde\xi$ is again distributed geometrically and one can average this out to compute the shortage cost.
+\begin{align*}
+E[\Pi_{t=2}^{T}e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}|(X_1,X_2,...X_T)(A_1,A_2,...A_{T-1})]&=E[\Pi_{t=1}^{T-1}e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}]\\
+&=\Pi_{t=2}^{T}E[e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}]
+\end{align*}
+Hence now we can write the transformed formed of the rewards as below:
 \begin{equation*}
-e^{\gamma r_t(s_t,a_t)}=
+r_t(s_t,a_t)=
 \begin{cases}
-e^{c_{o}a_t}&,t=1\\
-e^{c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_{\lbrace s_t=0\rbrace}}&,1<t< T\\
-e^{c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_{\lbrace s_t=0\rbrace}}&,t=T
+c_{o}a_t&,t=1\\
+c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + \tilde{c})\mathbf{1}_{\lbrace s_t=0\rbrace}&,1<t< T\\
+c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} +\tilde{c}\mathbf{1}_{\lbrace s_t=0\rbrace}&,t=T
 \end{cases}
 \end{equation*}
-Hence now we can apply directly the risk sensitive LP to solve the MDP model from \citep{kumar2015finite}.
+where $\tilde{c} = log(E[e^{(c_s \tilde{\xi})}]). $\\
+Under this assumption one can apply directly use the risk sensitive LP to solve the MDP model from \citep{kumar2015finite}. The dual LP to get the policy.
 \begin{align*}
-\nonumber
-min\hspace{0.5cm} \sum_a \sum_{s} b_{(x,a)}y(T-1,s,a) 
+min\hspace{0.5cm} \sum_a &\sum_{s} b_{(x,a)}y(T-1,s,a)
 \end{align*}
-\begin{flushleft}
 \text{subject to:}
-\end{flushleft}
 \begin{align*}
-& \sum_a y(0,s',a)=\alpha(s')     &\text{for all } s'\in S \\
-& \sum_a y(t,s',a)= \sum_a \sum_s e^{\gamma r_{t-1}(s,a)}p(s'|s,a)y(t-1,s,a)    &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S   \\
-\text{with} b_{(x,a)}:= e^{\gamma r_{T-1}(s,a)}\sum_{s'} p(s'|s,a)e^{r_T(s')} \\
+\sum_a y(0,s',a)&=\alpha(s')     &\text{ for all } s'\in S \\
+\sum_a y(t,s',a)&= \sum_a \sum_s e^{\gamma r_{t-1}(s,a)}p(s'|s,a)y(t-1,s,a) &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S
 \end{align*}
-$\frac{P(z<\xi\leq q+z)}{P(\xi >z)}$
+\begin{align*}
+\text{ with } b_{(x,a)}:= e^{\gamma r_{T-1}(s,a)}\sum_{s'} p(s'|s,a)e^{r_T(s')} \text{ and } y(t,s,a)\geq 0 \text{ for } a\in A_s \text{ and } s\in S.
+\end{align*}
+If we let $\gamma\rightarrow0$, authors in \citep{kumar2015finite} have shown that the risk sensitive cost converges to risk neutral cost. Similarly in this model the LP will converge to risk neutral LP. In the appendix the convergence of the risk sensitive cost is shown. This is an important step since $\tilde c$ is a function of gamma.
 
-\begin{myequation}\mathbb{1}^c\end{myequation}
+\chapter{Results}
+\section{Risk Neutral MDP}
+\subsection{Average Cost Model}
+Let us consider maximum Inventory level $M = 20$. The total planning horizons $ N = 10$. Let us consider demand distribution to be geometric with parameter $p=0.3$. Let $ K=0.2, c_u=0.4, c_h=0.2, c_s=1$. Given these we can compute the rewards $r_t(s,a)$ and the necessary transition probability $p(s'|s,a)$ for the problem.  
+$\frac{P(z<\xi\leq q+z)}{P(\xi >z)}$
+$\cal{s}$
 \nocite{*}
 \bibliographystyle{plain}
 \bibliography{R}
