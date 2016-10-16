@@ -24,7 +24,7 @@ for s=1:length(S)
         THC=0;
         TSC=0;
         if(S(s)+A(a)<=M)
-            TOC=oc*A(a);
+            TOC=oc*A(a)+foc*(A(a)>0);
             while(z<=Max_demand)
                 if(z<=S(s)+A(a))
                     THC=THC+ hc*((S(s)+A(a)-z))*p;
@@ -79,7 +79,7 @@ for t=length(T)-1:-1:1
             if(S(s)+A(a)<=M)
                 u(s,a)=r(s,a)+prob(s,:,a)*u_s;
             else
-                u(s,a)=1000;
+                u(s,a)=1000000;
             end
         end
     end

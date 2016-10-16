@@ -14,4 +14,6 @@
 \contentsline {section}{\numberline {3.4}Risk Sensitive MDP}{17}
 \contentsline {chapter}{\numberline {4}Results}{19}
 \contentsline {section}{\numberline {4.1}Risk Neutral MDP}{19}
-\contentsline {subsection}{\numberline {4.1.1}Average Cost Model}{19}
+\contentsline {subsection}{\numberline {4.1.1}Uniform Demand Distribution}{19}
+\contentsline {subsection}{\numberline {4.1.2}Geometric distribution}{20}
+\contentsline {section}{\numberline {4.2}Risk Sensitive MDP}{20}

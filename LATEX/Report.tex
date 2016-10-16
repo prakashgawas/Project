@@ -24,6 +24,10 @@
 \usepackage{environ}	
 \usepackage{fancyhdr}
 \pagestyle{fancy}
+\usepackage{listings}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
 \fancyhead{}
 \fancyhead[RO,LE]{Risk Sensitive Markov Decision Process and Linear Programs}
 \fancyfoot{}
@@ -280,7 +284,7 @@ c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_
 c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})&,t=T
 \end{cases}
 \end{equation*}
-\noindent where $\tilde{\xi}$ is the excess variable demand and distribution of whose is to be known to compute the reward. This Excess demand $\tilde{\xi}$ depends on the inventory state, the action taken in that state and demand in that period. Note that there exist terminal reward in this case. Hence with these new rewards, we can again solve the LP to get the optimal policy. Section 4.2 provides the results for this way of modelling. 
+\noindent where $\tilde{\xi}$ is the excess variable demand and distribution of whose is to be known to compute the reward. This excess demand $\tilde{\xi}$ depends on the inventory state, the action taken in that state and demand in that period. Note that there exist terminal reward in this case. Hence with these new rewards, we can again solve the LP to get the optimal policy. Section 4.2 provides the results for this way of modelling. 
 Advantages of this formulation:
 \begin{enumerate}
 \item The holding cost does not depend on random demand.
@@ -334,10 +338,99 @@ If we let $\gamma\rightarrow0$, authors in \citep{kumar2015finite} have shown th
 
 \chapter{Results}
 \section{Risk Neutral MDP}
-\subsection{Average Cost Model}
-Let us consider maximum Inventory level $M = 20$. The total planning horizons $ N = 10$. Let us consider demand distribution to be geometric with parameter $p=0.3$. Let $ K=0.2, c_u=0.4, c_h=0.2, c_s=1$. Given these we can compute the rewards $r_t(s,a)$ and the necessary transition probability $p(s'|s,a)$ for the problem.  
-$\frac{P(z<\xi\leq q+z)}{P(\xi >z)}$
-$\cal{s}$
+\subsection{Uniform Demand Distribution}
+Consider demand to be uniformly distributed with parameters ${\lbrace0,20\rbrace}$. Let $M = 20, N = 10, K = 0.5, c_u = 0.4, c_h=0.2, c_s=0.8$. Given these we can compute the rewards $r_t(s,a)$ by using [equation 3.2] and the necessary transition probability $p(s'|s,a)$ for the problem. These computations were carried out in MATLAB and the data was formatted appropriately to be given s input to the LP solver. The LP was modelled using AMPL. The results are shown in the table below. The table shows the optimum policy i.e. the optimum ordering quantity at any time stage at any inventory level.
+\begin{table}[H]
+\centering
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{12}{|c|}{Decision Epoch}                         \\ \hline
+States↓ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 & 10 \\ \hline
+0       & 14 & 14 & 14 & 14 & 14 & 14 & 14 & 14 & 13 & 8 & 0  \\ \hline
+1       & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 12 & 7 & 0  \\ \hline
+2       & 12 & 12 & 12 & 12 & 12 & 12 & 12 & 12 & 11 & 6 & 0  \\ \hline
+3       & 11 & 11 & 11 & 11 & 11 & 11 & 11 & 11 & 10 & 5 & 0  \\ \hline
+4       & 10 & 10 & 10 & 10 & 10 & 10 & 10 & 10 & 9  & 0 & 0  \\ \hline
+5       & 9  & 9  & 9  & 9  & 9  & 9  & 9  & 9  & 8  & 0 & 0  \\ \hline
+6       & 8  & 8  & 8  & 8  & 8  & 8  & 8  & 8  & 7  & 0 & 0  \\ \hline
+7       & 7  & 7  & 7  & 7  & 7  & 7  & 7  & 7  & 6  & 0 & 0  \\ \hline
+8       & 6  & 6  & 6  & 6  & 6  & 6  & 6  & 6  & 0  & 0 & 0  \\ \hline
+9       & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+10      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+11      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+12      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+13      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+14      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+15      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+16      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+17      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+18      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+19      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+20      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+\end{tabular}
+\caption{My caption}
+\label{wer}
+\end{table}
+As seen from the table table, the validates that $(s,S)$ policy is indeed optimal for the problem. Also the above solution was verified by a Backward Induction Dynamic Programming algorithm in MATLAB. From the table $s=6, S=14$ for the 7 Decision Epochs, after that the values decrease due to end of the planning period being near. One can easily imagine that for an infinite horizon case $(s=6, S=14)$ is the optimal policy for Decision Epochs. 
+\subsection{Geometric distribution}
+The demand distribution to be geometric with parameter $p=0.3$. Let $M = 20, N = 10, K=0.2, c_u=0.4, c_h=0.2, c_s=1$. This problem can now be solved by considering the cost in the same stage and by shifting it to the next period. Solving the LP gives the same solution in both cases and confirms the validity of the model. In this case the optimal policy is $(s=4, S=6)$. The Dynamic Program also verifies the solution.
+\begin{table}[H]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{12}{|c|}{Decision Epoch}               \\ \hline
+State↓ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+0      & 6 & 6 & 6 & 6 & 6 & 6 & 5 & 5 & 3 & 2 & 0  \\ \hline
+1      & 5 & 5 & 5 & 5 & 5 & 5 & 4 & 4 & 2 & 0 & 0  \\ \hline
+2      & 4 & 4 & 4 & 4 & 4 & 4 & 3 & 3 & 0 & 0 & 0  \\ \hline
+3      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+4      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+5      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+6      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+7      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+8      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+9      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+10     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+11     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+12     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+13     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+14     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+15     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+16     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+17     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+18     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+19     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+20     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Risk Sensitive MDP}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+
+\section*{Matlab Code}
+
+\lstinputlisting{ValueIteration_wob2.m}
+
 \nocite{*}
 \bibliographystyle{plain}
 \bibliography{R}
