@@ -72,7 +72,7 @@ end
 
 %%
 %program
-decision1=zeros(M+1,Time-1);
+decision1=zeros(M+1,Time);
 u=zeros(M+1,N+1);
 u_s=r_T';
 u_t=zeros(M+1,Time);

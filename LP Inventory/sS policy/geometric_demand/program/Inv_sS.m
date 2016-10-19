@@ -15,8 +15,8 @@ end
 
 oc=0.4;%purchase cost
 sc=1; %shortage cost
-hc=0.1; %holding cost
 foc=0.2; %fixed ordering cost
+hc=1; %holding cost
 %%
 
 %Expected reward
@@ -75,7 +75,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS20.dat','w');
+fileID = fopen('Inv_sS20_exp.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);

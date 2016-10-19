@@ -2,5 +2,12 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces My caption}}{19}
-\contentsline {table}{\numberline {4.2}{\ignorespaces My caption}}{20}
+\contentsline {table}{\numberline {4.1}{\ignorespaces Optimal Policy for Uniform Distribution with parameters $(0,20)$}}{19}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Optimal $(S,s)$ policy for Uniform Distribution with parameters $(0,20)$}}{20}
+\contentsline {table}{\numberline {4.3}{\ignorespaces Optimal Policy for Geometric Distribution with $p = 0.3$}}{20}
+\contentsline {table}{\numberline {4.4}{\ignorespaces Optimal $(s,S)$ policy for Geometric distribution}}{21}
+\contentsline {table}{\numberline {4.5}{\ignorespaces Optimal $(s,S)$ policy for Geometric distribution}}{21}
+\contentsline {table}{\numberline {4.6}{\ignorespaces Optimal $(s,S)$ Policy with $\gamma =0.2$}}{21}
+\contentsline {table}{\numberline {4.7}{\ignorespaces Optimal Policy with $\gamma = 0.2$}}{22}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

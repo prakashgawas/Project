@@ -1,13 +1,13 @@
 clear all;
-N = 4;% Number of items you can order
-M = 4;% Number of states
-Time =5;
+N = 20;% Number of items you can order
+M = 20;% Number of states
+Time =10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
 gamma=0.001;
-pr=0.7;
-Max_demand=4;%max fulfilled demand
+pr=0.3;
+Max_demand=20;%max fulfilled demand
 for i=1:Max_demand+1
     p(i)=geopdf(i-1,pr);
 end
@@ -29,14 +29,14 @@ for s=1:length(S)
     end
 end
 
-TSC(1,:)= log(exp(gamma*sc)*pr/(1-exp(gamma*sc)*(1-pr)));
+TSC(1,:)= log(pr/(1-exp(gamma*sc)*(1-pr)));
 r_1=TOC;
 r=TOC+TSC+THC;
 for s=1:length(S)
     if(S(s)==0)
         r_T(s)=TSC(1,1);
     else
-        r_T(s)=hc*S(s);
+        r_T(s)=gamma*hc*S(s);
     end
 end
 
@@ -73,7 +73,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_FH_risk20.dat','w');
+fileID = fopen('Inv_risk_g0.35.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);

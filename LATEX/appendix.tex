@@ -1,0 +1,44 @@
+\begin{appendix}
+As discussed in section 3.4 one needs to show that, with the cost considered in equation [], the risk sensitive model converges to linear cost model. The shortage cost will only be considered in this case as it is averaged out, while the the other costs follows the convergence as shown in \cite{kumar2015finite}. Considering the cost in equation 2.2, we need to show that
+\begin{equation}
+\lim_{\gamma\rightarrow0}\frac{1}{\gamma}\log(J_o(\alpha,\pi)) = E^{(\alpha,\pi)}[ \sum_t r_t(S_t,A_t)]
+\end{equation}
+where
+\begin{equation*}
+J_o(\alpha,\pi) = E^{(\alpha,\pi)}[e^{\gamma \sum_t r_t(S_t,A_t)]} 
+\end{equation*}
+\begin{align}
+\text{Let } r_t(x,a) = 
+\begin{cases}
+\tilde{c}\mathbf{1}_{\lbrace s_t=0\rbrace},&1<t\leq T\\
+0,&\text{else}
+\end{cases}
+\end{align}
+where $\tilde{c} = log(E[e^{(c_s \tilde{\xi})}]). $\\
+Consider
+\begin{align}
+\frac{1}{\gamma}\log(J_o(\alpha,\pi))&= \frac{1}{\gamma}\log(E^{(\alpha,\pi)}[e^{\gamma \sum_t r_t(X_t,A_t)}])\\ \nonumber
+&=\frac{1}{\gamma}\log(E^{(\alpha,\pi)}[\Pi_t e^{\gamma r_t(X_t,A_t)}])\\ 
+\text{Let }e^{\gamma r_t(X_t,A_t)}&=
+\begin{cases}
+e^{\tilde{c}} = E[e^{(\gamma c_s \tilde{\xi})}],& X_t=0\\
+1,& X_t\neq0
+\end{cases}\\ \nonumber
+\therefore &=\frac{1}{\gamma}\log(E^{(\alpha,\pi)}[\Pi_t(E[e^{(\gamma c_s \tilde{\xi})}]\mathbf{1}_{\lbrace X_t=0\rbrace} + \mathbf{1}_{\lbrace X_t\neq 0\rbrace})])\\ \nonumber
+&=\frac{1}{\gamma}\log(E^{(\alpha,\pi)}[(E[e^{(\gamma c_s \tilde{\xi})}])^Z])\\ \nonumber
+\end{align}
+where $Z$ is a random variable denoting the number of times the Inventory Level was zero in period $T$.
+Using Taylor's series, one can expand $e^{(\gamma c_s \tilde{\xi})}$
+\begin{align}
+&=\frac{1}{\gamma}\log(E^{(\alpha,\pi)}[((E[1 + \gamma c_s \tilde{\xi} + \frac{(\gamma c_s \tilde{\xi})^2}{2!} + ....])^Z)])
+\end{align}
+Taking $\lim_{\gamma\rightarrow 0 }$ and using L'Hospital's Rule one can prove that:
+\begin{align}
+\lim_{\gamma\rightarrow 0 }\frac{1}{\gamma}\log(E^{(\alpha,\pi)}[(E[1 + \gamma c_s \tilde{\xi} + \frac{(\gamma c_s \tilde{\xi})^2}{2!} + ....])]) = E[Z]E[c_s\tilde{\xi}]
+\end{align}
+the quantity $E[Z]E[c_s\tilde{\xi}] $ represents random sum of $E[c_s\tilde{\xi}]$ i.e.
+\begin{align}
+E[Z]E[c_s\tilde{\xi}] = E[\sum_t E[c_s \tilde{\xi}\mathbf{1}_{\lbrace X_t = 0\rbrace}]],
+\end{align}
+which represents the linear shortage cost.
+\end{appendix}

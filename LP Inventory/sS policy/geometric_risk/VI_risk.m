@@ -1,13 +1,13 @@
 clear all;
-N = 4;% Number of items you can order
-M = 4;% Number of states
-Time =5;
+N = 20;% Number of items you can order
+M = 20;% Number of states
+Time =10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
 gamma=0.001;
-pr=0.7;
-Max_demand=4;
+pr=0.3;
+Max_demand=20;%max fulfilled demand
 for i=1:Max_demand+1
     p(i)=geopdf(i-1,pr);
 end
@@ -15,10 +15,9 @@ end
 oc=0.4;%purchase cost
 sc=1; %shortage cost
 hc=0.1; %holding cost
-foc=0.2;%fixed ordering cost
+foc=0.2; %fixed ordering cost
 %%
 
-%Expected reward
 %Expected reward
 TSC=zeros(M+1,N+1);
 for s=1:length(S)
@@ -30,14 +29,14 @@ for s=1:length(S)
     end
 end
 
-TSC(1,:)= log(exp(gamma*sc)*pr/(1-exp(gamma*sc)*(1-pr)));
+TSC(1,:)= log(pr/(1-exp(gamma*sc)*(1-pr)));
 r_1=TOC;
 r=TOC+TSC+THC;
 for s=1:length(S)
     if(S(s)==0)
         r_T(s)=TSC(1,1);
     else
-        r_T(s)=hc*S(s);
+        r_T(s)=gamma*hc*S(s);
     end
 end
 
@@ -77,7 +76,7 @@ end
 
 decision1=zeros(M+1,Time-1);
 u=zeros(M+1,N+1);
-u_s=r_T';
+u_s=exp(r_T)';
 u_t=zeros(M+1,Time);
 u_t(:,Time)=u_s;
 for t=length(T)-1:-1:1

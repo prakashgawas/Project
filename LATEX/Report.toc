@@ -1,9 +1,8 @@
-\contentsline {chapter}{\numberline {1}Preamble}{7}
-\contentsline {section}{\numberline {1.1}Introduction}{7}
-\contentsline {chapter}{\numberline {2}Literature Survey}{9}
-\contentsline {section}{\numberline {2.1}Mean Variance Optimization}{9}
-\contentsline {section}{\numberline {2.2}Variants of Risk Sensitive MDPs}{10}
-\contentsline {section}{\numberline {2.3}Exponential form of Risk Sensitive MDPs}{11}
+\contentsline {chapter}{\numberline {1}Introduction}{6}
+\contentsline {chapter}{\numberline {2}Literature Survey}{8}
+\contentsline {section}{\numberline {2.1}Mean Variance Optimization}{8}
+\contentsline {section}{\numberline {2.2}Variants of Risk Sensitive MDPs}{9}
+\contentsline {section}{\numberline {2.3}Exponential form of Risk Sensitive MDPs}{10}
 \contentsline {section}{\numberline {2.4}Inventory Control}{12}
 \contentsline {chapter}{\numberline {3}Inventory Control - Linear And Risk Sensitive MDP Framework}{13}
 \contentsline {section}{\numberline {3.1}Inventory Control}{13}
@@ -16,4 +15,8 @@
 \contentsline {section}{\numberline {4.1}Risk Neutral MDP}{19}
 \contentsline {subsection}{\numberline {4.1.1}Uniform Demand Distribution}{19}
 \contentsline {subsection}{\numberline {4.1.2}Geometric distribution}{20}
-\contentsline {section}{\numberline {4.2}Risk Sensitive MDP}{20}
+\contentsline {section}{\numberline {4.2}Risk Sensitive MDP}{21}
+\contentsline {subsection}{\numberline {4.2.1}Risk parameter $\gamma = 0.001$}{21}
+\contentsline {subsection}{\numberline {4.2.2}Risk parameter $\gamma = 0.2$}{21}
+\contentsline {chapter}{\numberline {5}Future Work}{23}
+\contentsline {chapter}{\numberline {A}Convergence of Risk sensitive cost (Shortage) to Linear cost as $\gamma \rightarrow 0$}{25}

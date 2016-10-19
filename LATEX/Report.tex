@@ -24,10 +24,6 @@
 \usepackage{environ}	
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\usepackage{listings}
-\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
-\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
-\definecolor{mylilas}{RGB}{170,55,241}
 \fancyhead{}
 \fancyhead[RO,LE]{Risk Sensitive Markov Decision Process and Linear Programs}
 \fancyfoot{}
@@ -66,10 +62,10 @@ I declare that this written submission represents my idea in my own words and wh
 \noindent Date:\hfill Prakash Arjun Gawas                     
 \begin{flushright}(153190002)\end{flushright}
 \chapter*{Acknowledment}
-I would like to extend thanks to the many people who so generously contributed to the work presented in the thesis.Special mention goes to my enthusiastic supervisor, \textbf{Prof. Veeraruna Kavitha} for giving me opportunity of working under his guidance.His Direction, motivation,affectionate guidance and support have been the source of inspiration to bring the report this shape.I thank all the other faculty member of Industrial Engineering And Operations Research, who made me realize the virtue of learning through sustained hard work.
+I would like to extend thanks to the many people who so generously contributed to the work presented in the thesis.Special mention goes to my enthusiastic supervisors, \textbf{Prof. Veeraruna Kavitha} and \textbf{Prof. Ashutosh Mahajan} for giving me opportunity of working under their guidance. Their direction, motivation, affectionate guidance and support have been the source of inspiration to bring the report this shape. I thank all the other faculty member of Industrial Engineering And Operations Research, who made me realize the virtue of learning through sustained hard work.
 \vspace{6mm}
 
-\noindent I would like to thanks all those whose name i missed but have contributed in any form for building up of the thesis upto now.
+\noindent I would like to thanks all those whose name I missed but have contributed in any form for building up of the thesis upto now.
 \vspace{1cm}
 
 \begin{flushright}
@@ -78,12 +74,11 @@ Prakash Arjun Gawas\\
 \end{flushright}
 
 \chapter*{Abstract}
-The project study is based on the
+The project is based on the Finite Horizon Markov Decision Problems with risk sensitive cost. Classical MDPs are based on optimizing the expected value of the total sum cost for all the periods (also called risk neutral cost), to find the optimal policies. This only considers the mean total cost and does not give any importance to fluctuations around the mean.DP and LP solution approaches are very  well  defined for linear MDPs. In risk sensitive cost we will give due importance to higher moments of this total cost by optimizing the expected value of the exponential value of sum cost. This is an example of multiplicative MDPs. Recently an LP based solution is provided for solving the finite horizon Risk MDPs using appropraite risk parameter. Using these LPs I intend to solve the classic case of Inventory Control problem. The optimal policies for the problem are very well known and are of the type (s,S): order quantity S-x, if stock x drops below s, so that the inventory level reaches S. These policies were shown to be optimal for linear ordering, shortage and holding costs. OUr main aim  was to study optimal policies for risk sensitive costs. The results of our study showed $(s,S)$ to be optimal for risk sensitive cost also. Also the convergence of risk sensitive policy to linear cost policy was confirmed as risk parameter approaches zero.
 \tableofcontents
-\listoffigures
 \listoftables
-\chapter{Preamble}
-\section{Introduction}
+\chapter{Introduction}
+
 Markov Decision process (MDP) is a mathematical framework that solves the problem of sequential decision making under uncertainty, to obtain an optimal policy. At each decision epoch the system state provides the decision maker with all necessary information for choosing an action from available actions in that state. As result of an action the decision maker receives an immediate reward and the system state evolves to a possibly different state at the next epoch depending on the controlled (action based) transition probability. Each action, the decision maker chooses in any particular state and at any time slot t, will have an associated reward/running cost $(R_t)$. The reward depends also on the current system state. In case of finite horizon problems, it also considers a terminal cost that only depends upon the state at termination. Hence over time the decision maker will receive a sequence of reward/costs.\\
 
 \noindent A policy is a sequence of such actions/rules, which the decision maker chooses at any time epoch depending on the state of the system. The aim of MDP is to find a policy prior to the first decision epoch that maximizes the expected value of a function $f$ of the reward sequences. In general MDP optimizes the expected value of the function $f$ that defines a way of aggregating the running costs related to all the time slots under consideration, i.e., to optimize $E[f(R_1,R_2,...)]$. Linear MDPs consider expected value of either sum of all the running costs $E[\sum_t{R_t} ]$, or sum of discounted values of all the running costs $E[\sum_t{\beta^t {R_t}} ]$ with discount factor $\beta<1$, or time average of the running costs $\lim_{T \to \infty}{[E[ \sum_{t\leq T}{R_t}]}{/T}$ .They are respectively called total cost, discounted cost or average cost problems. Also MDP whether discounted or total cost, can either be modelled over a finite time horizon or over the infinite time horizon. \\
@@ -108,7 +103,7 @@ One way is to focus on mean and variance of the cumulative reward. Mean-variance
 \section{Mean Variance Optimization}
 In \cite{mannor2011mean}, authors consider mean variance optimization, that is they consider optimizing 
 \begin{equation}
-E[\sum_t R_t] - \theta Var(\sum_t R_t) ^{**}
+E[\sum_t R_t] - \theta Var(\sum_t R_t)
 \end{equation}
 With the introduction of variance in the cost function, we can optimize the fluctuations around the mean. They also deal with various computational complexities of mean-variance optimisation. There many problems associated with Mean-Variance MDPs.
 \begin{enumerate}
@@ -135,17 +130,60 @@ In \cite{liu2005risk}, authors talk about risk sensitive planning with one switc
 \section{Exponential form of Risk Sensitive MDPs}
 As seen above Mean-Variance MDPs have several issues. However by considering exponential cost, one can also reduce the fluctuations around the mean. Exponential cost cover some of the drawbacks that are present in Mean-Variance MDPs.
 In comparison with linear MDPs which control the first moment (expected value) of the sum cost, the risk sensitive MDPs also control the variability/fluctuations around the expected value, by considering the higher moments. In \cite{kumar2015finite}, the authors model finite horizon risk sensitive constrained MDPs using LP technique.  The aim is to give varying importance to sample path trajectories and the expected value, as controlled by a parameter $\gamma$. Depending upon $\gamma$, called the risk parameter, it provides importance to higher moments of the sum cost. The linear MDPs are viewed as risk neutral MDPs with $\gamma=0$. The aggregation function in this case equals the exponential of the sum of the running costs, $E[e^{-\gamma {\sum_{t\leq T}R_t}} ]$. Note that $E[e^{-\gamma {\sum_{t\leq T}R_t}} ]= E[{\sum_k \gamma ^k {(\sum_{t\leq T}{R_t}})^{k}}/{k!}]$, thus considering the higher moments of the sum cost.
-The authors have considered the following transformation of the risk neutral objective function to capture the higher moments.
-\begin{equation*}
-\tilde{J_o} = (1/\gamma)\log(J_o) \text{     where  }\\
-J_o = E[e^{\gamma \sum_t r_t(S_t,A_t)]} 
-\end{equation*}
+The authors have considered the following transformation of the risk neutral objective function to capture the higher moments where $\alpha$ is the initial distribution and $\pi$ represents the policy .
+\begin{equation}
+\tilde{J_o(\alpha,\pi)} = (1/\gamma)\log(J_o(\alpha,\pi))
+\end{equation} 
+where
+\begin{equation}
+J_o(\alpha,\pi) = E^{(\alpha,\pi)}[e^{\gamma \sum_t r_t(S_t,A_t)]} 
+\end{equation}
 This the risk sensitive objective function. For smaller values $\gamma$ the objective takes the form:
 \begin{equation}
-\tilde{J_o} \simeq E[ \sum_t r_t(S_t,A_t)] + (\gamma /2)Var[\sum_t r_t(S_t,A_t)] 
+\tilde{J_o(\alpha,\pi)} \simeq E^{(\alpha,\pi)}[ \sum_t r_t(S_t,A_t)] + (\gamma /2)Var^{(\alpha,\pi)}[\sum_t r_t(S_t,A_t)] 
 \end{equation} 
-As one can see as $\gamma \rightarrow 0$ the objective function approaches risk neutral cost. 
-In this paper the authors provide connection between DP equations and two appropriate LPs for finite horizon case. The primal LP provides the value function while the dual LP provides the optimal policy. For LPs in risk sensitive MDPs the authors have circumvented this problem by incorporating the multiplicative cost term into the mapping that converts any given Markov policy to a feasible point of the LP. This due to the fact that it is possible to construct the linear objective function of the relevant LP using the running costs of all time slots but the cost accumulates in a multiplicative manner for risk sensitive MDPs and hence the same approach cannot be adapted directly for constructing an LP for risk MDP. Primal and dual LPs for finite horizon RSMDP are efficiently designed.  By substituting $\gamma=0$ in the Primal and Dual LP we get back to a risk neutral MDP which will maximise the expected cost. However there is inconsistency between those LP and they do not point to same optimal policies. They have identified this disparity between the LPs and have corrected the inconsistency. However when we need to add extra constraints to this model, the fact that costs are multiplicative poses a problem. The authors have proposed a technique to add more constraints to the LP by augmenting the state space with an extra component, which is representative of this multiplicative cost. The addition of this extra component makes it easy to add new constraints .They have also discussed two applications of the problem. First application includes delay tolerant networks where a message has to be transferred from a source to a faraway destination with the help of occasional contacts between the freely moving nodes (that are willing to become the relays) and the source/destination. Second application includes a lossy (finite buffer) queuing system with two server modes and with a constraint on the utilization of fast server mode. They have also compared the risk neutral policies with risk sensitive policies for the constrained MDP problem.\\
+As one can see as $\gamma \rightarrow 0$ the objective function approaches risk neutral cost. The value function is defined as the optimal value of the above risk sensitive objective with initial condition $X_0\equiv x$:
+\begin{equation}
+v^*(x):=min_{\pi\in\cal{D}}\tilde{J_o(\alpha,\pi)}  \text{for any } x\in \cal{X}
+\end{equation}
+The authors have given a Dynamic Programming equations using backward induction as below for any $x\in \cal{X}$.
+\begin{align}
+\begin{split}
+v_T(x) &= r_T(x), \text{   and for any  } 0\leq t\leq T-1, \\ 
+v_t(x) &=\min_{a\in \cal{A}}\bigg \lbrace r_t(x,a) + \frac{1}{\gamma}log\Big[\sum_{x'\in \cal{X}} p(x'|x,a)e^{\gamma v_{t+1}}(x')\Big]\bigg\rbrace, 
+\end{split}
+\label{eqn:1}
+\end{align}
+and their solution provides the value function $v*(x) = v_0^*(x)$. To simplify the above set equations, the following translation of the value function is used:
+\begin{equation}
+u_t(x) = e^{\gamma v_t(x)} \text{   for all } 0\leq t\leq T, \text{ and } x\in \cal{X}
+\end{equation}
+By monotonicity and continuity $u_0^*(x) = e^{\gamma v_0^*(x)}$ is the minimum value of the risk cost $J_0$ in equation[]:
+\begin{equation}
+u_0^*(x)=\min_\pi J_0(x,\pi).
+\end{equation}
+Hence the DP equations are now rewritten as:
+\begin{align}
+\begin{split}
+u_T(x) &= e^{\gamma v_T(x)}, \text{   and for any  } \text{ for any } x\in \cal{X} \text{ and},\\
+u_t(x) &=\min_{a\in \cal{A}}\bigg \lbrace e^{\gamma v_t(x)}\sum_{x'\in \cal{X}} p(x'|x,a)u_{t+1}(x')\bigg\rbrace, 
+\end{split}
+\label{eqn:1}
+\end{align}
+The solution of the above equations provide the translated value function vector $u^* = \lbrace u_t^*(t); 0\leq t\leq T-1, x\in \cal{X}\rbrace$. The authors than provide connection between DP equations and two appropriate LPs for finite horizon case. The primal LP (2) provides the value function while the dual LP provides the optimal policy. For LPs in risk sensitive MDPs the authors have circumvented this problem by incorporating the multiplicative cost term into the mapping that converts any given Markov policy to a feasible point of the LP. This due to the fact that it is possible to construct the linear objective function of the relevant LP using the running costs of all time slots but the cost accumulates in a multiplicative manner for risk sensitive MDPs and hence the same approach cannot be adapted directly for constructing an LP for risk MDP. Primal and dual LPs for finite horizon RSMDP are efficiently designed.  By substituting $\gamma=0$ in the Primal and Dual LP we get back to a risk neutral MDP which will maximise the expected cost. However there is inconsistency between those LP and they do not point to same optimal policies. They have identified this disparity between the LPs and have corrected the inconsistency.
+
+\begin{equation}
+\hspace{1cm}\text{max    }   \hspace{0.2cm}\sum\limits_{x\in\cal{X}}\alpha(x)u_0(x)
+\end{equation}
+\begin{equation*}
+\begin{array}{ll@{}ll}
+\text{subject to}& \\
+&u_{T-1}(x)&\leq b_{x,a}                                                             &\text{ for all } x,a,\\
+&u_t(x)&\leq e^{\gamma v_t(x)}\sum\limits_{x'\in \cal{X}} p(x'|x,a)u_{t+1}(x')   &\text{ for all } x,a \text{ and } t\leq T-2
+\end{array}
+\end{equation*}
+$\hspace{0.9cm}\text{ with } b_{(x,a)}:= e^{\gamma r_{T-1}(s,a)}\sum_{s'} p(s'|s,a)e^{r_T(s')}.$\\
+However when we need to add extra constraints to this model, the fact that costs are multiplicative poses a problem. The authors have proposed a technique to add more constraints to the LP by augmenting the state space with an extra component, which is representative of this multiplicative cost. The addition of this extra component makes it easy to add new constraints .They have also discussed two applications of the problem. First application includes delay tolerant networks where a message has to be transferred from a source to a faraway destination with the help of occasional contacts between the freely moving nodes (that are willing to become the relays) and the source/destination. Second application includes a lossy (finite buffer) queuing system with two server modes and with a constraint on the utilization of fast server mode. They have also compared the risk neutral policies with risk sensitive policies for the constrained MDP problem.\\
 
 \section{Inventory Control}
 In \cite{scarf1959optimality}, Herbert Scarf considers a dynamic inventory problem where he considers ordering costs, holding costs and shortage costs. The underlying assumption here is that the holding and shortage cost are linear. He shows that when this is true the optimal policy in each period is always of the type (S,s). This means that whenever the inventory level goes below level s will order so as to increase are inventory level to S, if not than we will not order. He builds a total cost function, composed of the three costs described above. This function can be used to construct a dynamic program equation. He shoes the total cost function follows K-convexity. Due to this the optimal policy the optimal policy turns out to be of such simple form.\\
@@ -177,37 +215,37 @@ Consider an Inventory storage that can be stocked with goods to a maximum size o
 \item[\textbf{a)}] Fixed order cost (K) : This the fixed cost for an order irrespective of the number of units ordered.
 \item[\textbf{b)}] Variable cost : This is a linear cost cost directly proportional to number of units ordered.Thus the order cost when quantity $a$  is ordered equals:\\
 \end{enumerate}
-\begin{equation*}
+\begin{equation}
 C_O(a) = 
 \begin{cases}
-0,   \hspace{2.12cm}          a&=0\\
-K+ c_u, {a}     \hspace{1cm}           a&>0
+0 ,            &a=0\\
+K+ c_u, {a} ,                &a>0
 \end{cases}
-\end{equation*}
+\end{equation}
 
 \hspace{6mm} where  $c_u$  is the unit price.
 
 \item[\textbf{2)}]Holding cost $(C_H)$ : Cost associated with storing the inventory that remains unsold. This cost will depend on the demand.
 
-\begin{equation*}
+\begin{equation}
 C_H(s,a) = 
 \begin{cases}
 0,   &\xi \geq s+a\\
 c_H(s+a-\xi),     & \xi <s+a
 \end{cases}
-\end{equation*}
+\end{equation}
 \begin{flushleft}where $c_k$ is the unit holding cost.
 \end{flushleft}
 
 \item[\textbf{3)}]	Shortage cost$(C_S)$ : Cost associated with not being able to fulfil demand from the stock. 
 
-\begin{equation*}
+\begin{equation}
 C_S(s,a) = 
 \begin{cases}
 0          &,\xi \leq s+a\\
 c_S(\xi-s-a)     &  ,\xi >s+a
 \end{cases}
-\end{equation*}
+\end{equation}
 \begin{flushleft}where $c_s$ is the unit shortage cost.
 \end{flushleft}
 \end{enumerate}
@@ -250,24 +288,23 @@ E[\sum_t r_t(s,a) ]&=\sum_t E[r_t(s,a)] \\
 &= \sum_t E \bigg[ E\Big[{R_t}|{(S_1,A_1),(S_2,A_2),...,(S_{T-1},A_{T-1}),(S_T)}\Big]\bigg].
 \end{align}
 \noindent Hence given the current state $s$ and action to be taken $a$ we can find the cost any period $t$. The  cost $r_t$ for the period $t$ will depend only on the state $s_t$ and the action$a_t$ in that period and can be calculated as follows:
-\begin{align*}
+\begin{align}
 \nonumber
 E[R_t(s,a)|{(S_t=s,A_t=a)}] &=  E[C_O(a) + C_H(s,a) + C_S(s,a)]\\
-\end{align*}
+\end{align}
 This quantity is easy to compute, given $s$, $a$ and the distribution of demand $\xi$.
 Hence now we can compute $E[r_t(s,a)]$ by simply multiplying with the probabilities $\lbrace P( S_t=s, A_t=a)\rbrace$
 
 In \citep{kumar2015finite}, authors have given a Primal and Dual LPs to solve finite horizon linear program. The primal will give us the optimum cost, while the dual gives the optimum policies. The dual LP is given below.\\
-\begin{align*}
-\nonumber
+\begin{align}
 min\hspace{0.5cm} \sum_{t=1}^{T-1} \sum_{a_t} \sum_{s_t} r_t(s_t,a_t)y(t,s_t,a_t) + \sum_{a} \sum_{s,s'}r_T(s')y(T-1,s,a)p(s'|s,a)
-\end{align*}
+\end{align}
 \begin{flushleft}
 \text{subject to:}
 \end{flushleft}
 \begin{align*}
 &\sum_a y(0,s',a)=\alpha(s')     &\text{for all } s'\in S \\
-&\sum_a y(t,s',a)= \sum_a \sum_s p(s'|s,a)y(t-1,s,a)    &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S   \\ 
+&\sum_a y(t,s',a)=\sum_a \sum_s p(s'|s,a)y(t-1,s,a)    &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S   \\ 
 &\text{and } y(t,s,a)\geq 0 \text{ for } a\in A_s \text{ and } s\in S. 
 \end{align*}
 
@@ -276,14 +313,14 @@ Using the above LP we solve the inventory problem and results are given in chapt
 \subsection{MDP after shiting the cost terms}
 There is another way which can be used to represent the rewards in this MDP model. We consider  shift of few cost terms (from any time slot to its next), which would not change the actual problem and which would pave way for risk MDP. In formulation given in eq [], the holding and shortage costs depend upon the current inventory, order quantity and demand. In actual it depends only on the next state. It is easily known that if the state $s$ at the start of next period is greater than zero than we would directly incur holding cost equivalent to $c_hs$ in the current period. Therefore we can model the cost $r_t$ as function of the next state of inventory which would give us information on which of the cost is applicable in the previous period. So one can shift the holding and shortage costs to the next period where we would know the state. If $s=0$ than we for sure know that there was no holding cost and only shortage cost would apply.
 Hence in this case we need to model the excess demand, when the state is zero. The reason for modelling the rewards this way is highlighted in the next section where we model Risk Sensitive MDPs. Considering this we can use the following:\\
-\begin{equation*}
+\begin{equation}
 r_t(s_t,a_t)=
 \begin{cases}
 c_{o}a_t&,t=1\\
 c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})\mathbf{1}_{\lbrace s_t=0\rbrace}&,1<t< T\\
 c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + c_s(\tilde{\xi})&,t=T
 \end{cases}
-\end{equation*}
+\end{equation}
 \noindent where $\tilde{\xi}$ is the excess variable demand and distribution of whose is to be known to compute the reward. This excess demand $\tilde{\xi}$ depends on the inventory state, the action taken in that state and demand in that period. Note that there exist terminal reward in this case. Hence with these new rewards, we can again solve the LP to get the optimal policy. Section 4.2 provides the results for this way of modelling. 
 Advantages of this formulation:
 \begin{enumerate}
@@ -293,145 +330,211 @@ Advantages of this formulation:
 
 \section{Risk Sensitive MDP}
 In risk sensitive MDPs we want to give importance to higher moments of the total rewards. Hence our objective is to optimize $E[e^{\sum_{t=1}^T \gamma r_t}]$
-\begin{align*}
+\begin{align}
 E[e^{\sum_{t=1}^T \gamma r_t}]&=E[\Pi_{t=1}^Te^{ \gamma r_t}]\\
-&=E \bigg{[}E\Big[\Pi_{t=1}^{T}e^{\gamma R_t}|(X_1,X_2,...X_T)(A_1,A_1,...A_{T-1})\Big]\bigg]
-\end{align*}
+\nonumber
+&=E \bigg{[}E\Big[\Pi_{t=1}^{T}e^{\gamma R_t}|(X_1,X_2,...X_T)(A_1,A_1,...A_{T-1})\Big]\bigg] 
+\end{align}
 \\ As compared to linear cost MDPs we cannot simplify this easily. If one notices in linear MDPs \ref{3.2}, we can simplify the total in terms of sum of expectations of the costs which is easy to compute as in \ref{3.1} .But this is not the case in Risk sensitive MDPs as seen above and we cannot average out the risk reward for a given state $s$ and the corresponding action $a$.  Hence using we need to use the technique where we shift the rewards to the next time period. We will consider a the transformed risk reward as below:
 $E[e^{\sum_{t=1}^T \gamma r_t}]$
-\begin{align*}
+\begin{align}
 &=E \bigg{[}E\Big[\Pi_{t=1}^{T}e^{\gamma R_t}|{(X_1,A_1),(X_2,A_2),...,(X_{T-1},A_{T-1}),(X_T)}\Big]\bigg]
-\end{align*}
+\end{align}
 substitute the shifted reward from equation
-\begin{align*}
+\begin{align}
 &=E[E[\Pi_{t=1}^{T-1} e^{c_o A_t}\Pi_{t=1}^{T}e^{(c_h S_t)\mathbf{1}_{\lbrace S_t>0\rbrace}+(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}|(X_1,X_2,...X_T)(A_1,A_2,...A_{T-1})]]\\
+\nonumber
 &=E[\Pi_{t=1}^{T-1} e^{c_o A_t}\Pi_{t=1}^{T}e^{(c_h S_t)\mathbf{1}_{\lbrace S_t>0\rbrace}}E[\Pi_{t=1}^{T-1}e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}|(X_1,X_2,...X_T)(A_1,A_2,...A_{T-1})]]
-\end{align*}
+\end{align}
 In the above rewards the shortage cost depends on the random quantity $\tilde\xi$ (excess demand). The distribution of excess demand $\tilde\xi$ in general depends upon the inventory state and action of previous slot, however will not influence further evolution of the system.  We can assume memory less demands (geometric), in which case $\tilde\xi$ is again distributed geometrically and one can average this out to compute the shortage cost.
-\begin{align*}
-E[\Pi_{t=2}^{T}e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}|(X_1,X_2,...X_T)(A_1,A_2,...A_{T-1})]&=E[\Pi_{t=1}^{T-1}e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}]\\
+\begin{align}
+E[\Pi_{t=2}^{T}e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}|(X_1,X_2,...X_T)(A_1,A_2,...A_{T-1})]&=E[\Pi_{t=1}^{T-1}e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}]\\ \nonumber
 &=\Pi_{t=2}^{T}E[e^{(c_s \tilde{\xi})\mathbf{1}_{\lbrace S_t=0\rbrace}}]
-\end{align*}
+\end{align}
 Hence now we can write the transformed formed of the rewards as below:
-\begin{equation*}
+\begin{equation}
 r_t(s_t,a_t)=
 \begin{cases}
 c_{o}a_t&,t=1\\
 c_{o}a + c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} + \tilde{c})\mathbf{1}_{\lbrace s_t=0\rbrace}&,1<t< T\\
 c_h(s_t)\mathbf{1}_{\lbrace s_t>0\rbrace} +\tilde{c}\mathbf{1}_{\lbrace s_t=0\rbrace}&,t=T
 \end{cases}
-\end{equation*}
-where $\tilde{c} = log(E[e^{(c_s \tilde{\xi})}]). $\\
-Under this assumption one can apply directly use the risk sensitive LP to solve the MDP model from \citep{kumar2015finite}. The dual LP to get the policy.
-\begin{align*}
+\end{equation}
+where $\tilde{c} = log(E[e^{(\gamma c_s \tilde{\xi})}]). $\\
+Under this assumption one can apply directly use the risk sensitive LP (12)to solve the MDP model from \citep{kumar2015finite}. If we let $\gamma\rightarrow0$, authors in \citep{kumar2015finite} have shown that the risk sensitive cost converges to risk neutral cost. Similarly in this model the LP will converge to risk neutral LP. In the appendix the convergence of the risk sensitive cost is shown. This is an important step since $\tilde c$ is a function of gamma.
+\pagebreak
+\begin{align}
 min\hspace{0.5cm} \sum_a &\sum_{s} b_{(x,a)}y(T-1,s,a)
-\end{align*}
+\end{align}
 \text{subject to:}
 \begin{align*}
 \sum_a y(0,s',a)&=\alpha(s')     &\text{ for all } s'\in S \\
 \sum_a y(t,s',a)&= \sum_a \sum_s e^{\gamma r_{t-1}(s,a)}p(s'|s,a)y(t-1,s,a) &\text{for all } 1\leq t\leq T-1 \text{ and } s'\in S
 \end{align*}
-\begin{align*}
-\text{ with } b_{(x,a)}:= e^{\gamma r_{T-1}(s,a)}\sum_{s'} p(s'|s,a)e^{r_T(s')} \text{ and } y(t,s,a)\geq 0 \text{ for } a\in A_s \text{ and } s\in S.
-\end{align*}
-If we let $\gamma\rightarrow0$, authors in \citep{kumar2015finite} have shown that the risk sensitive cost converges to risk neutral cost. Similarly in this model the LP will converge to risk neutral LP. In the appendix the convergence of the risk sensitive cost is shown. This is an important step since $\tilde c$ is a function of gamma.
+$
+\text{ with } b_{(x,a)}:= e^{\gamma r_{T-1}(s,a)}\sum_{s'} p(s'|s,a)e^{r_T(s')} \text{ and } y(t,s,a)\geq 0 \text{ for } a\in A_s \text{ and } s\in S.$
+
 
 \chapter{Results}
 \section{Risk Neutral MDP}
 \subsection{Uniform Demand Distribution}
-Consider demand to be uniformly distributed with parameters ${\lbrace0,20\rbrace}$. Let $M = 20, N = 10, K = 0.5, c_u = 0.4, c_h=0.2, c_s=0.8$. Given these we can compute the rewards $r_t(s,a)$ by using [equation 3.2] and the necessary transition probability $p(s'|s,a)$ for the problem. These computations were carried out in MATLAB and the data was formatted appropriately to be given s input to the LP solver. The LP was modelled using AMPL. The results are shown in the table below. The table shows the optimum policy i.e. the optimum ordering quantity at any time stage at any inventory level.
+Consider demand to be uniformly distributed with parameters ${\lbrace0,20\rbrace}$. Let $M = 20, N = 10, K = 0.5, c_u = 0.4, c_h=0.2, c_s=0.8$. Given these we can compute the rewards $r_t(s,a)$ by using [equation 3.2] and the necessary transition probability $p(s'|s,a)$ for the problem. These computations were carried out in MATLAB and the data was formatted appropriately to be given s input to the LP solver. The LP was modelled using AMPL. The results are shown in table \ref{t1} below. The table shows the optimum policy i.e. the optimum ordering quantity at any time stage at any inventory level.
 \begin{table}[H]
 \centering
-
+\caption{Optimal Policy for Uniform Distribution with parameters $(0,20)$}
+\label{t1}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-\multicolumn{12}{|c|}{Decision Epoch}                         \\ \hline
-States↓ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9 & 10 \\ \hline
-0       & 14 & 14 & 14 & 14 & 14 & 14 & 14 & 14 & 13 & 8 & 0  \\ \hline
-1       & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 12 & 7 & 0  \\ \hline
-2       & 12 & 12 & 12 & 12 & 12 & 12 & 12 & 12 & 11 & 6 & 0  \\ \hline
-3       & 11 & 11 & 11 & 11 & 11 & 11 & 11 & 11 & 10 & 5 & 0  \\ \hline
-4       & 10 & 10 & 10 & 10 & 10 & 10 & 10 & 10 & 9  & 0 & 0  \\ \hline
-5       & 9  & 9  & 9  & 9  & 9  & 9  & 9  & 9  & 8  & 0 & 0  \\ \hline
-6       & 8  & 8  & 8  & 8  & 8  & 8  & 8  & 8  & 7  & 0 & 0  \\ \hline
-7       & 7  & 7  & 7  & 7  & 7  & 7  & 7  & 7  & 6  & 0 & 0  \\ \hline
-8       & 6  & 6  & 6  & 6  & 6  & 6  & 6  & 6  & 0  & 0 & 0  \\ \hline
-9       & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-10      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-11      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-12      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-13      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-14      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-15      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-16      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-17      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-18      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-19      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
-20      & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0  & 0 & 0  \\ \hline
+\textbf{}        & \multicolumn{11}{c|}{\textbf{Decision Epoch}}                                                                                                 \\ \hline
+\textbf{States↓} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{0}       & 14         & 14         & 14         & 14         & 14         & 14         & 14         & 14         & 13         & 8          & 0           \\ \hline
+\textbf{1}       & 13         & 13         & 13         & 13         & 13         & 13         & 13         & 13         & 12         & 7          & 0           \\ \hline
+\textbf{2}       & 12         & 12         & 12         & 12         & 12         & 12         & 12         & 12         & 11         & 6          & 0           \\ \hline
+\textbf{3}       & 11         & 11         & 11         & 11         & 11         & 11         & 11         & 11         & 10         & 5          & 0           \\ \hline
+\textbf{4}       & 10         & 10         & 10         & 10         & 10         & 10         & 10         & 10         & 9          & 0          & 0           \\ \hline
+\textbf{5}       & 9          & 9          & 9          & 9          & 9          & 9          & 9          & 9          & 8          & 0          & 0           \\ \hline
+\textbf{6}       & 8          & 8          & 8          & 8          & 8          & 8          & 8          & 8          & 7          & 0          & 0           \\ \hline
+\textbf{7}       & 7          & 7          & 7          & 7          & 7          & 7          & 7          & 7          & 6          & 0          & 0           \\ \hline
+\textbf{8}       & 6          & 6          & 6          & 6          & 6          & 6          & 6          & 6          & 0          & 0          & 0           \\ \hline
+\textbf{9}       & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{10}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{11}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{12}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{13}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{14}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{15}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{16}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{17}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{18}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{19}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{20}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
 \end{tabular}
-\caption{My caption}
-\label{wer}
+\end{table}
+\begin{table}[]
+\centering
+\caption{Optimal $(S,s)$ policy for Uniform Distribution with parameters $(0,20)$}
+\label{t5}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+           & \multicolumn{11}{c|}{\textbf{Decision Epoch}}                                                                                                 \\ \hline
+           & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{S} & 14         & 14         & 14         & 14         & 14         & 14         & 14         & 14         & 13         & 8          & 0           \\ \hline
+\textbf{s} & 8          & 8          & 8          & 8          & 8          & 8          & 8          & 8          & 7          & 3          & 0           \\ \hline
+\end{tabular}
 \end{table}
 As seen from the table table, the validates that $(s,S)$ policy is indeed optimal for the problem. Also the above solution was verified by a Backward Induction Dynamic Programming algorithm in MATLAB. From the table $s=6, S=14$ for the 7 Decision Epochs, after that the values decrease due to end of the planning period being near. One can easily imagine that for an infinite horizon case $(s=6, S=14)$ is the optimal policy for Decision Epochs. 
 \subsection{Geometric distribution}
-The demand distribution to be geometric with parameter $p=0.3$. Let $M = 20, N = 10, K=0.2, c_u=0.4, c_h=0.2, c_s=1$. This problem can now be solved by considering the cost in the same stage and by shifting it to the next period. Solving the LP gives the same solution in both cases and confirms the validity of the model. In this case the optimal policy is $(s=4, S=6)$. The Dynamic Program also verifies the solution.
+The demand distribution is geometric with parameter $p=0.3$. Let $M = 20, N = 10, K=0.2, c_u=0.4, c_h=0.1, c_s=1$. This problem can now be solved by considering the cost in the same stage and by shifting it to the next period. Solving the LP gives the same solution in both cases and confirms the validity of the model. The Dynamic Program also verifies the solution. Table \ref{t2} shows the solution from the LP and table\ref{t6} shows the optimal policy.
 \begin{table}[H]
 \centering
-\caption{My caption}
-\label{my-label}
+\caption{Optimal Policy for Geometric Distribution with $p = 0.3$}
+\label{t2}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-\multicolumn{12}{|c|}{Decision Epoch}               \\ \hline
-State↓ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
-0      & 6 & 6 & 6 & 6 & 6 & 6 & 5 & 5 & 3 & 2 & 0  \\ \hline
-1      & 5 & 5 & 5 & 5 & 5 & 5 & 4 & 4 & 2 & 0 & 0  \\ \hline
-2      & 4 & 4 & 4 & 4 & 4 & 4 & 3 & 3 & 0 & 0 & 0  \\ \hline
-3      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-4      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-5      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-6      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-7      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-8      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-9      & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-10     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-11     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-12     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-13     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-14     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-15     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-16     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-17     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-18     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-19     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
-20     & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\ \hline
+\textbf{}       & \multicolumn{11}{c|}{\textbf{Decision Epoch}}                                                                                                 \\ \hline
+\textbf{State↓} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{0}      & 6          & 6          & 6          & 6          & 6          & 6          & 5          & 5          & 3          & 2          & 0           \\ \hline
+\textbf{1}      & 5          & 5          & 5          & 5          & 5          & 5          & 4          & 4          & 2          & 0          & 0           \\ \hline
+\textbf{2}      & 4          & 4          & 4          & 4          & 4          & 4          & 3          & 3          & 0          & 0          & 0           \\ \hline
+\textbf{3}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{4}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{5}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{6}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{7}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{8}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{9}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{10}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{11}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{12}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{13}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{14}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{15}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{16}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{17}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{18}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{19}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{20}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\end{tabular}
+\end{table}
+\begin{table}[]
+\centering
+\caption{Optimal $(s,S)$ policy for Geometric distribution}
+\label{t6}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+           & \multicolumn{11}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Decision  Epoch\end{tabular}}}                                                     \\ \hline
+           & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{S} & 6          & 6          & 6          & 6          & 6          & 6          & 5          & 5          & 3          & 2          & 0           \\ \hline
+\textbf{s} & 2          & 2          & 2          & 2          & 2          & 2          & 2          & 2          & 1          & 0          & 0           \\ \hline
+\end{tabular}
+\end{table}
+\section{Risk Sensitive MDP}
+The same parameters were used as in the previous section for risk sensitive MDP. The only extra parameter to be defined is the risk parameter $\gamma$. Two cases were considered as below:
+\subsection{Risk parameter $\gamma= 0.001$}
+As $\gamma\rightarrow 0$ it has been shown that the optimum cost of the risk sensitive model converges to the optimum cost of the linear cost model. Hence by letting $\gamma= 0.001$ the LP model was solved. As can be seen in \ref{t4} the solution matches with the solution of the linear cost model given in \ref{t2}. This establishes the validity of the model.
+\begin{table}[h]
+\centering
+\caption{Optimal $(s,S)$ policy for Geometric distribution}
+\label{t4}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+           & \multicolumn{11}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Decision\\   Epoch\end{tabular}}}                                                     \\ \hline
+           & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{S} & 6          & 6          & 6          & 6          & 6          & 6          & 5          & 5          & 3          & 2          & 0           \\ \hline
+\textbf{s} & 2          & 2          & 2          & 2          & 2          & 2          & 2          & 2          & 1          & 0          & 0           \\ \hline
+\end{tabular}
+\end{table}
+\subsection{Risk parameter $\gamma= 0.2$}
+The results for this problem are given in table \ref{t3} below.As can be seen from the table the optimal policies still remain $(s,S)$, but $S$ has its value increased from 6 to 9. This change from the linear cost solution is expected as the decision maker is averse towards taking risk and will try to protect against under stocking. This can be understood by comparing $c_o, c_h, c_s$. Since shortage cost is higher than the other costs the decision maker will have to order more. 
+\begin{table}[h]
+\centering
+\caption{Optimal $(s,S)$ Policy with $\gamma=0.2$}
+\label{t7}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+           & \multicolumn{11}{c|}{\textbf{Decision Epoch}}                                                                                                 \\ \hline
+           & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{S} & 9          & 9          & 9          & 9          & 9          & 9          & 8          & 7          & 6          & 3          & 0           \\ \hline
+\textbf{s} & 5          & 5          & 5          & 5          & 5          & 5          & 5          & 4          & 3          & 1          & 0           \\ \hline
+\end{tabular}
+\end{table}
+\begin{table}[H]
+\centering
+\caption{Optimal Policy with $\gamma= 0.2$}
+\label{t3}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{}       & \multicolumn{11}{c|}{\textbf{Decision Epoch}}                                                                                                 \\ \hline
+\textbf{State↓} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+\textbf{0}      & 9          & 9          & 9          & 9          & 9          & 9          & 8          & 7          & 6          & 3          & 0           \\ \hline
+\textbf{1}      & 8          & 8          & 8          & 8          & 8          & 8          & 7          & 6          & 5          & 2          & 0           \\ \hline
+\textbf{2}      & 7          & 7          & 7          & 7          & 7          & 7          & 6          & 5          & 4          & 0          & 0           \\ \hline
+\textbf{3}      & 6          & 6          & 6          & 6          & 6          & 6          & 5          & 4          & 3          & 0          & 0           \\ \hline
+\textbf{4}      & 5          & 5          & 5          & 5          & 5          & 5          & 4          & 3          & 0          & 0          & 0           \\ \hline
+\textbf{5}      & 4          & 4          & 4          & 4          & 4          & 4          & 3          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{6}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{7}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{8}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{9}      & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{10}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{11}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{12}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{13}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{14}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{15}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{16}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{17}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{18}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{19}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
+\textbf{20}     & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 0           \\ \hline
 \end{tabular}
 \end{table}
 
-\section{Risk Sensitive MDP}
-
-\lstset{language=Matlab,%
-    %basicstyle=\color{red},
-    breaklines=true,%
-    morekeywords={matlab2tikz},
-    keywordstyle=\color{blue},%
-    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
-    identifierstyle=\color{black},%
-    stringstyle=\color{mylilas},
-    commentstyle=\color{mygreen},%
-    showstringspaces=false,%without this there will be a symbol in the places where there is a space
-    numbers=left,%
-    numberstyle={\tiny \color{black}},% size of the numbers
-    numbersep=9pt, % this defines how far the numbers are from the text
-    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
-    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
-}
-
-
-\section*{Matlab Code}
-
-\lstinputlisting{ValueIteration_wob2.m}
-
+\chapter{Future Work}
 \nocite{*}
 \bibliographystyle{plain}
 \bibliography{R}
+\appendix
+\chapter{Convergence of Risk sensitive cost (Shortage) to Linear cost as $\gamma\rightarrow 0$}
+\input{appendix}
 \end{document}

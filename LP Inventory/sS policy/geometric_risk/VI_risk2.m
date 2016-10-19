@@ -1,12 +1,12 @@
 clear all;
-N = 4;% Number of items you can order
-M = 4;% Number of states
-Time =5;
+N = 20;% Number of items you can order
+M = 20;% Number of states
+Time =10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
-gamma=0.6;
-pr=0.7;
+gamma=0.001;
+pr=0.3;
 Max_demand=4;
 for i=1:Max_demand+1
     p(i)=geopdf(i-1,pr);
@@ -42,7 +42,7 @@ for s=1:length(S)
     if(S(s)==0)
         r_T(s)=TSC(1,1);
     else
-        r_T(s)=hc*S(s);
+        r_T(s)=gamma*hc*S(s);
     end
 end
 

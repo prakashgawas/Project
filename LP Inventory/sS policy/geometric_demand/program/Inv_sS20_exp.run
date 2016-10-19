@@ -1,0 +1,7 @@
+reset;
+option solver gurobi;
+model Inv_sS.mod;
+data Inv_sS20_exp.dat;
+option show_stats 1;
+option presolve 0;
+solve;

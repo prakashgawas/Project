@@ -14,8 +14,9 @@ end
 
 oc=0.4;%purchase cost
 sc=1; %shortage cost
-hc=0.1; %holding cost
 foc=0.2; %fixed ordering cost
+hc=1; %holding cost
+
 %%
 
 %Expected reward
@@ -29,14 +30,14 @@ for s=1:length(S)
     end
 end
 
-TSC(1,:)= log(exp(gamma*sc)*pr/(1-exp(gamma*sc)*(1-pr)));
+TSC(1,:)= log(pr/(1-exp(gamma*sc)*(1-pr)));
 r_1=TOC;
 r=TOC+TSC+THC;
 for s=1:length(S)
     if(S(s)==0)
         r_T(s)=TSC(1,1);
     else
-        r_T(s)=hc*S(s);
+        r_T(s)=gamma*hc*S(s);
     end
 end
 
@@ -73,7 +74,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_FH_risk20.dat','w');
+fileID = fopen('Inv_risk_exp.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
