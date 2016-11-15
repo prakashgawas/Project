@@ -1,16 +1,16 @@
 \begin{appendix}
 As discussed in section 3.4 one needs to show that, with the cost considered in equation [], the risk sensitive model converges to linear cost model. The shortage cost will only be considered in this case as it is averaged out, while the the other costs follows the convergence as shown in \cite{kumar2015finite}. Considering the cost in equation 2.2, we need to show that
 \begin{equation}
-\lim_{\gamma\rightarrow0}\frac{1}{\gamma}\log(J_o(\alpha,\pi)) = E^{(\alpha,\pi)}[ \sum_t r_t(S_t,A_t)]
+\lim_{\gamma\rightarrow0}\frac{1}{\gamma}\log(J_o(\alpha,\pi)) = E^{(\alpha,\pi)}[ \sum_t r_t(X_t,A_t)]
 \end{equation}
 where
 \begin{equation*}
-J_o(\alpha,\pi) = E^{(\alpha,\pi)}[e^{\gamma \sum_t r_t(S_t,A_t)]} 
+J_o(\alpha,\pi) = E^{(\alpha,\pi)}[e^{\gamma \sum_t r_t(X_t,A_t)}] 
 \end{equation*}
 \begin{align}
 \text{Let } r_t(x,a) = 
 \begin{cases}
-\tilde{c}\mathbf{1}_{\lbrace s_t=0\rbrace},&1<t\leq T\\
+\tilde{c}\mathbf{1}_{\lbrace x_t=0\rbrace},&1<t\leq T\\
 0,&\text{else}
 \end{cases}
 \end{align}

@@ -30,7 +30,13 @@ Yaxin Liu and Sven Koenig.
 \bibitem{mannor2011mean}
 Shie Mannor and John Tsitsiklis.
 \newblock Mean-variance optimization in markov decision processes.
-\newblock {\em arXiv preprint arXiv:1104.5601}, 2011.
+\newblock {\em ICML}, 2011.
+
+\bibitem{nahmias1973optimal}
+Steven Nahmias and William~P Pierskalla.
+\newblock Optimal ordering policies for a product that perishes in two periods
+  subject to stochastic demand.
+\newblock {\em Naval Research Logistics Quarterly}, 20(2):207--229, 1973.
 
 \bibitem{puterman1990market}
 Martin~L Puterman.

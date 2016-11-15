@@ -1,0 +1,46 @@
+N = 20;% Number of items you can order
+M = 20;% Number of states
+Time = 3;
+%S = 0:1:M ;% states
+%A= 0:1:N;%actions
+T = 0:1:Time;
+ 
+Max_demand=20;
+pr=0.3;
+for i=1:Max_demand+1
+    p(i)=geopdf(i-1,pr);
+end
+
+oc=0.2;%purchase cost
+sc=1; %shortage cost
+foc=0.2; %fixed ordering cost
+hc=0.1; %holding cost
+x=7;
+SIM=200;
+%%
+S=max(decision1);
+k=decision1;
+k(k==0)=Inf;
+s=min(k);
+r_sim=zeros(1,SIM);
+%r_sim=0;
+for i=1:SIM
+    d=geornd(pr,1,Time);
+    for j=1:Time
+        if(x<s(j))
+            r_sim(i)=r_sim(i)+ foc + oc*(S(j)-x);
+            x=S(j);
+        end
+        if (x<d(j))
+            r_sim(i)=r_sim(i)+ sc*(d(j)-x);
+            x=0;
+            %d(j)-x
+        else
+            x=x-d(j);
+            r_sim(i)=r_sim(i)+ hc*x;
+            %x
+        end
+        
+    end
+end
+disp (mean(r_sim));

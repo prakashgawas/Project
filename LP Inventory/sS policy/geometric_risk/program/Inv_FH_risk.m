@@ -5,17 +5,17 @@ Time =10;
 S = 0:1:M ;% states
 A= 0:1:N;%actions
 T = 0:1:Time;
-gamma=0.001;
+gamma=0.2;
 pr=0.3;
 Max_demand=20;%max fulfilled demand
 for i=1:Max_demand+1
     p(i)=geopdf(i-1,pr);
 end
 
-oc=0.4;%purchase cost
+oc=0.5;%purchase cost
 sc=1; %shortage cost
-foc=0.2; %fixed ordering cost
-hc=1; %holding cost
+foc=0.1; %fixed ordering cost
+hc=0.05; %holding cost
 
 %%
 

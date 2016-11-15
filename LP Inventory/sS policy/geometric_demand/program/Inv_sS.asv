@@ -13,10 +13,10 @@ for i=1:Max_demand+1
     p(i)=geopdf(i-1,pr);
 end
 
-oc=0.4;%purchase cost
+oc=0.2;%purchase cost
 sc=1; %shortage cost
-hc=0.1; %holding cost
 foc=0.2; %fixed ordering cost
+hc=0.2; %holding cost
 %%
 
 %Expected reward
@@ -75,7 +75,7 @@ end
                  %% data file for Solver %%%%%%%%%
 disp('File writing');
 
-fileID = fopen('Inv_sS20.dat','w');
+fileID = fopen('Inv_sS20_exp.dat','w');
 
 % M Value
 fprintf(fileID,'param Max_num_States := %d;\n', M);
@@ -142,6 +142,18 @@ for t = 1:length(T)
     end
     fprintf(fileID,' \n');
 end
+fprintf(fileID,';\n');
+
+%reward other 1
+fprintf(fileID,'param Reward_1 :');
+str1 = sprintf('%d ', 0:1:N );
+fprintf(fileID,' %s  := \n', str1);
+for s = 1:length(S) 
+    fprintf(fileID,' %d \t', s-1);
+    str1 = sprintf('%1.15f ', r_1(s,:) ); 
+    fprintf(fileID,'%s \n', str1);
+end
+fprintf(fileID,' \n');
 fprintf(fileID,';\n');
 
 %reward Terminal

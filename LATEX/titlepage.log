@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.5.2)  11 OCT 2016 17:30
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.5.2)  20 OCT 2016 16:00
 entering extended mode
 **titlepage.tex
 (Z:\IEOR\Project\LATEX\titlepage.tex
@@ -150,7 +150,7 @@ Overfull \hbox (36.2234pt too wide) in paragraph at lines 12--12
  []
 
 ! Undefined control sequence.
-l.16 	\Large
+l.15 	\Large
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -158,68 +158,54 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-
-Overfull \hbox (52.54834pt too wide) in paragraph at lines 17--17
- []\OT1/cmr/bx/n/10 Submitted 
- []
-
-
-Overfull \hbox (9.58328pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 in 
- []
-
-
-Overfull \hbox (20.5485pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 par- 
- []
-
-
-Overfull \hbox (16.45128pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 tial 
- []
-
-
-Overfull \hbox (16.93047pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 ful- 
- []
-
-
-Overfull \hbox (16.61102pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 fill- 
- []
-
-
-Overfull \hbox (25.3957pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 ment 
- []
-
-
-Overfull \hbox (9.26384pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 of 
- []
-
-
-Overfull \hbox (16.13187pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 the 
- []
-
-
-Overfull \hbox (13.84023pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 re- 
- []
-
-
-Overfull \hbox (29.49292pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 quire- 
- []
-
-
-Overfull \hbox (29.93178pt too wide) in paragraph at lines 17--17
- \OT1/cmr/bx/n/10 ments 
- []
-
+Missing character: There is no S in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no b in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no h in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no q in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no s in font nullfont!
 ! Undefined control sequence.
-l.19 	\Large
+l.18 	\Large
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -241,7 +227,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.22 	\Large
+l.21 	\Large
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -250,32 +236,32 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (35.52202pt too wide) in paragraph at lines 23--23
+Overfull \hbox (35.52202pt too wide) in paragraph at lines 22--22
  []\OT1/cmr/bx/n/10 Master 
  []
 
 
-Overfull \hbox (9.26384pt too wide) in paragraph at lines 23--23
+Overfull \hbox (9.26384pt too wide) in paragraph at lines 22--22
  \OT1/cmr/bx/n/10 of 
  []
 
 
-Overfull \hbox (27.32625pt too wide) in paragraph at lines 23--23
+Overfull \hbox (27.32625pt too wide) in paragraph at lines 22--22
  \OT1/cmr/bx/n/10 Tech- 
  []
 
 
-Overfull \hbox (19.16656pt too wide) in paragraph at lines 23--23
+Overfull \hbox (19.16656pt too wide) in paragraph at lines 22--22
  \OT1/cmr/bx/n/10 nol- 
  []
 
 
-Overfull \hbox (17.72908pt too wide) in paragraph at lines 23--23
+Overfull \hbox (17.72908pt too wide) in paragraph at lines 22--22
  \OT1/cmr/bx/n/10 ogy 
  []
 
 ! Undefined control sequence.
-l.25 	\Large
+l.24 	\Large
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -286,7 +272,7 @@ and I'll forget about whatever was undefined.
 Missing character: There is no b in font nullfont!
 Missing character: There is no y in font nullfont!
 ! Undefined control sequence.
-l.28 	\Large
+l.27 	\Large
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -295,32 +281,27 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (40.98589pt too wide) in paragraph at lines 29--29
- []\OT1/cmr/bx/n/10 (Govind 
+Overfull \hbox (36.89696pt too wide) in paragraph at lines 28--28
+ []\OT1/cmr/bx/n/10 (Gawas 
  []
 
 
-Overfull \hbox (19.23601pt too wide) in paragraph at lines 29--29
- \OT1/cmr/bx/n/10 Ku- 
+Overfull \hbox (40.13307pt too wide) in paragraph at lines 28--28
+ \OT1/cmr/bx/n/10 Prakash 
  []
 
 
-Overfull \hbox (19.9096pt too wide) in paragraph at lines 29--29
- \OT1/cmr/bx/n/10 mar 
+Overfull \hbox (17.26381pt too wide) in paragraph at lines 28--28
+ \OT1/cmr/bx/n/10 Ar- 
  []
 
 
-Overfull \hbox (17.1596pt too wide) in paragraph at lines 29--29
- \OT1/cmr/bx/n/10 Ya- 
- []
-
-
-Overfull \hbox (22.20125pt too wide) in paragraph at lines 29--29
- \OT1/cmr/bx/n/10 dav) 
+Overfull \hbox (20.76378pt too wide) in paragraph at lines 28--28
+ \OT1/cmr/bx/n/10 jun) 
  []
 
 ! Undefined control sequence.
-l.32 	\Large
+l.31 	\Large
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -344,10 +325,10 @@ Missing character: There is no 9 in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no 0 in font nullfont!
-Missing character: There is no 2 in font nullfont!
+Missing character: There is no 8 in font nullfont!
 Missing character: There is no ) in font nullfont!
 ! Undefined control sequence.
-l.35 	\Large
+l.34 	\Large
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -368,7 +349,7 @@ Missing character: There is no d in font nullfont!
 Missing character: There is no b in font nullfont!
 Missing character: There is no y in font nullfont!
 ! Undefined control sequence.
-l.38 	\Large
+l.37 	\Large
             
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -377,13 +358,48 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (93.25641pt too wide) in paragraph at lines 39--39
- []\OT1/cmr/bx/n/10 (Prof.Mallikarjuna 
+Overfull \hbox (29.52763pt too wide) in paragraph at lines 38--38
+ []\OT1/cmr/bx/n/10 (Prof. 
  []
 
 
-Overfull \hbox (24.43735pt too wide) in paragraph at lines 39--39
- \OT1/cmr/bx/n/10 Rao) 
+Overfull \hbox (26.8471pt too wide) in paragraph at lines 38--38
+ \OT1/cmr/bx/n/10 Veer- 
+ []
+
+
+Overfull \hbox (28.69426pt too wide) in paragraph at lines 38--38
+ \OT1/cmr/bx/n/10 aruna 
+ []
+
+
+Overfull \hbox (44.47194pt too wide) in paragraph at lines 38--38
+ \OT1/cmr/bx/n/10 Kavitha) 
+ []
+
+
+Overfull \hbox (29.52763pt too wide) in paragraph at lines 39--39
+ []\OT1/cmr/bx/n/10 (Prof. 
+ []
+
+
+Overfull \hbox (46.83583pt too wide) in paragraph at lines 39--39
+ \OT1/cmr/bx/n/10 Ashutosh 
+ []
+
+
+Overfull \hbox (20.34015pt too wide) in paragraph at lines 39--39
+ \OT1/cmr/bx/n/10 Ma- 
+ []
+
+
+Overfull \hbox (15.8124pt too wide) in paragraph at lines 39--39
+ \OT1/cmr/bx/n/10 ha- 
+ []
+
+
+Overfull \hbox (19.96515pt too wide) in paragraph at lines 39--39
+ \OT1/cmr/bx/n/10 jan) 
  []
 
 ! Undefined control sequence.

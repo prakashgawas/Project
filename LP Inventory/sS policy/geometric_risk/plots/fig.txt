@@ -1,0 +1,5 @@
+Open both figures
+Select "Show Plot Tools and Dock Figure" in both figures (see figure below)
+Select one of the plot lines and copy [CTRL+C]
+Paste [CTRL+V] in the other plot
+Change the line properties to your liking
