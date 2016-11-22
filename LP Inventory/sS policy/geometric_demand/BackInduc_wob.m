@@ -12,10 +12,10 @@ for i=1:Max_demand+1
     p(i)=geopdf(i-1,pr);
 end
 
-oc=0.2;%purchase cost
-sc=1; %shortage cost
+oc=0.4;%purchase cost
+sc=3; %shortage cost
 foc=0.2; %fixed ordering cost
-hc=0.1; %holding cost
+hc=0.7; %holding cost
 %%
 
 %Expected reward
@@ -98,4 +98,4 @@ decision=zeros(M+2,Time+2);
 decision(2:M+2,1)=S';
 decision(1,2:Time+2)=0:Time;
 decision(2:M+2,2:Time+1)=decision1;
-%disp(decision);
+disp(decision);

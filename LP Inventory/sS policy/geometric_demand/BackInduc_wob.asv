@@ -13,9 +13,9 @@ for i=1:Max_demand+1
 end
 
 oc=0.2;%purchase cost
-sc=1; %shortage cost
+sc=3; %shortage cost
 foc=0.2; %fixed ordering cost
-hc=0.1; %holding cost
+hc=0.7; %holding cost
 %%
 
 %Expected reward
@@ -83,7 +83,7 @@ for t=length(T)-1:-1:1
             if(S(s)+A(a)<=M)
                 u(s,a)=r(s,a)+prob(s,:,a)*u_s;
             else
-                u(s,a)=max(u)+1000;
+                u(s,a)=1000;
             end
         end
     end
